@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductoService } from '../../services/producto.service';
 import { DetalleProducto } from '../../models/detalleProducto'; // Ajusta la ruta
+import { MetaService } from '../../services/meta.service';
 
 @Component({
   selector: 'app-producto-detalle',
@@ -10,10 +11,11 @@ import { DetalleProducto } from '../../models/detalleProducto'; // Ajusta la rut
   templateUrl: './producto-detalle.html',
   styleUrl: './producto-detalle.scss'
 })
-export class ProductoDetalleComponent implements OnInit {
+export class ProductoDetalleComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private productoService = inject(ProductoService);
+  private metaService = inject(MetaService);
 
   producto?: DetalleProducto;
   cargando = true;
@@ -32,6 +34,15 @@ export class ProductoDetalleComponent implements OnInit {
     this.productoService.obtenerProductoPorId(id).subscribe({
       next: (data) => {
         this.producto = data;
+
+        // Actualizar meta tags con la información del producto
+        this.metaService.updateProductTags({
+          nombre: data.nombre,
+          precio: data.precio,
+          categoria: data.categoria,
+          fotos: data.fotos,
+          id: data.id
+        });
         
         // Si no hay fotos, usar placeholder inmediatamente
         if (!data.fotos || data.fotos.length === 0) {
@@ -74,5 +85,9 @@ export class ProductoDetalleComponent implements OnInit {
 
   volverALista(): void {
     this.router.navigate(['/productos']);
+  }
+
+  ngOnDestroy(): void {
+    this.metaService.resetTags();
   }
 }
