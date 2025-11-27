@@ -18,7 +18,7 @@ export class ProductoService {
   ): Observable<ProductosPaginados> {
     let params = new HttpParams()
       .set('pagina', pagina.toString())
-      .set('items', items.toString());
+      .set('rows', items.toString());
 
     // Agregar parámetro de búsqueda si existe
     if (search && search.trim() !== '') {
