@@ -141,68 +141,53 @@
   </div>
 
   <!-- Controles de paginación -->
-  <!-- Controles de paginación mejorados -->
+<!-- Controles de paginación - Versión móvil -->
 @if (totalPaginas > 1) {
-  <div class="d-flex justify-content-between align-items-center mt-4">
-    <!-- Información de página -->
-    <div class="text-muted small">
-      Mostrando {{ productos.length }} productos de {{ totalProductos }} totales
-    </div>
+    <div class="pagination-mobile">
+      <!-- Información compacta -->
+      <div class="text-center text-muted small mb-2">
+        Página {{ paginaActual }} de {{ totalPaginas }}
+      </div>
 
-    <!-- Controles de navegación -->
-    <nav aria-label="Paginación de productos">
-      <ul class="pagination mb-0">
-        <!-- Primera página -->
-        <li class="page-item" [class.disabled]="paginaActual === 1">
-          <a class="page-link" (click)="cambiarPagina(1)" title="Primera página">
-            <i class="bi bi-chevron-double-left"></i>
-          </a>
-        </li>
-
-        <!-- Página anterior -->
-        <li class="page-item" [class.disabled]="paginaActual === 1">
-          <a class="page-link" (click)="cambiarPagina(paginaActual - 1)" title="Página anterior">
-            <i class="bi bi-chevron-left"></i>
-          </a>
-        </li>
-
-        <!-- Indicador de página actual -->
-        <li class="page-item active">
-          <span class="page-link">
-            {{ paginaActual }} de {{ totalPaginas }}
-          </span>
-        </li>
-
-        <!-- Página siguiente -->
-        <li class="page-item" [class.disabled]="paginaActual === totalPaginas">
-          <a class="page-link" (click)="cambiarPagina(paginaActual + 1)" title="Página siguiente">
-            <i class="bi bi-chevron-right"></i>
-          </a>
-        </li>
-
-        <!-- Última página -->
-        <li class="page-item" [class.disabled]="paginaActual === totalPaginas">
-          <a class="page-link" (click)="cambiarPagina(totalPaginas)" title="Última página">
-            <i class="bi bi-chevron-double-right"></i>
-          </a>
-        </li>
-      </ul>
-    </nav>
-
-      <!-- Selector de página (opcional) -->
-      <div class="d-flex align-items-center gap-2 small">
-        <label for="selectorPagina" class="text-muted mb-0">Ir a página:</label>
-        <select 
-          id="selectorPagina" 
-          class="form-select form-select-sm" 
-          style="width: auto;"
-          [value]="paginaActual"
-          (change)="cambiarPagina($any($event.target).value)"
+      <!-- Controles principales -->
+      <div class="d-flex justify-content-between align-items-center">
+        <!-- Botón anterior -->
+        <button 
+          class="btn btn-outline-primary btn-sm"
+          [disabled]="paginaActual === 1"
+          (click)="cambiarPagina(paginaActual - 1)"
         >
-          @for (pagina of generarArrayPaginas(); track pagina) {
-            <option [value]="pagina">{{ pagina }}</option>
-          }
-        </select>
+          <i class="bi bi-chevron-left"></i> Anterior
+        </button>
+
+        <!-- Selector de página compacto -->
+        <div class="d-flex align-items-center gap-2">
+          <select 
+            class="form-select form-select-sm" 
+            style="width: 80px;"
+            [value]="paginaActual"
+            (change)="cambiarPagina($any($event.target).value)"
+          >
+            @for (pagina of generarArrayPaginas(); track pagina) {
+              <option [value]="pagina">{{ pagina }}</option>
+            }
+          </select>
+          <span class="text-muted small">/ {{ totalPaginas }}</span>
+        </div>
+
+        <!-- Botón siguiente -->
+        <button 
+          class="btn btn-outline-primary btn-sm"
+          [disabled]="paginaActual === totalPaginas"
+          (click)="cambiarPagina(paginaActual + 1)"
+        >
+          Siguiente <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- Información de productos (opcional) -->
+      <div class="text-center text-muted small mt-2">
+        {{ productos.length }} de {{ totalProductos }} productos
       </div>
     </div>
   }

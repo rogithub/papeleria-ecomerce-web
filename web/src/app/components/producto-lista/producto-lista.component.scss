@@ -58,19 +58,39 @@
 }
 
 // Estilos para la paginación
-.pagination {
-  .page-link {
-    cursor: pointer;
-    transition: all 0.15s ease-in-out;
-    
-    &:hover:not(.disabled) {
-      background-color: #f8f9fa;
-    }
+// En producto-lista.component.scss
+.pagination-mobile {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.pagination-compact {
+  .btn {
+    min-width: 44px; // Tamaño táctil mínimo
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
-  .page-item.active .page-link {
-    background-color: #007bff;
-    border-color: #007bff;
+  span {
+    font-size: 0.9rem;
+    min-width: 60px;
+    text-align: center;
+  }
+}
+
+// Mejorar usabilidad táctil
+@media (max-width: 768px) {
+  .btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  .form-select {
+    font-size: 16px; // Evita zoom en iOS
   }
 }
 
