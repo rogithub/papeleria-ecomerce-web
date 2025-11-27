@@ -1,10 +1,18 @@
 import { Component } from '@angular/core';
-import { ProductoListaComponent } from './components/producto-lista/producto-lista.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [ProductoListaComponent],
-  template: `<app-producto-lista></app-producto-lista>`,
-  styles: []
+  imports: [RouterOutlet],
+  template: `
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div>
+  `,
+  styles: [`
+    .container-fluid {
+      padding: 0;
+    }
+  `]
 })
 export class App { }

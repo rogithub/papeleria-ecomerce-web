@@ -61,7 +61,8 @@
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
     @for (producto of productos; track producto.id) {
       <div class="col">
-        <div class="card shadow-sm h-100">
+        <div class="card shadow-sm h-100 cursor-pointer"
+              (click)="verDetalle(producto.nid)">
           
           <!-- Imagen o placeholder -->
           <div class="card-img-top-wrapper" style="height: 225px; overflow: hidden; background-color: #f8f9fa;">

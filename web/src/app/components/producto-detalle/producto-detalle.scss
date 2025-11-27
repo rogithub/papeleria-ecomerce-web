@@ -1,0 +1,36 @@
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.product-image-main {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.product-thumbnails {
+  .img-thumbnail {
+    transition: all 0.2s ease-in-out;
+    
+    &:hover {
+      transform: scale(1.05);
+      border-color: #007bff !important;
+    }
+  }
+}
+
+.btn-lg {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .product-thumbnails {
+    justify-content: center;
+  }
+  
+  .display-6 {
+    font-size: 2rem;
+  }
+}

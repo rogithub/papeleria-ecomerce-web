@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Producto, ProductosPaginados } from '../models/producto.model';
 import { environment } from '../../environments/environment';
+import { DetalleProducto } from '../models/detalleProducto';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,9 @@ export class ProductoService {
       params = params.set('search', search.trim());
     }
     return this.http.get<ProductosPaginados>(this.apiUrl, { params });
+  }
+
+  obtenerProductoPorId(id: number): Observable<DetalleProducto> {
+    return this.http.get<DetalleProducto>(`${this.apiUrl}/${id}`);
   }
 }
