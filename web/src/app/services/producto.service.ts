@@ -13,7 +13,7 @@ export class ProductoService {
 
   obtenerProductos(
     pagina: number = 1, 
-    items: number = 30,
+    items: number = 9,
     search: string = ''  // Nuevo parámetro opcional
   ): Observable<ProductosPaginados> {
     let params = new HttpParams()
