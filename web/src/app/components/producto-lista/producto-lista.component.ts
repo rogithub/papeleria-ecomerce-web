@@ -30,7 +30,7 @@ export class ProductoListaComponent implements OnInit {
 
   cargarProductos(pagina: number, busqueda?: string): void {
     this.cargando = true;
-    this.productoService.obtenerProductos(pagina, 30, busqueda || this.terminoBusqueda).subscribe({
+    this.productoService.obtenerProductos(pagina, 9, busqueda || this.terminoBusqueda).subscribe({
       next: (data) => {
         this.productos = data.productos;
         this.paginaActual = data.paginacion.paginaActual;
