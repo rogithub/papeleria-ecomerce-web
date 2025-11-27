@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Producto } from '../models/producto.model';
+import { Producto, ProductosPaginados } from '../models/producto.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -14,11 +14,11 @@ export class ProductoService {
   obtenerProductos(
     pagina: number = 1, 
     items: number = 30
-  ): Observable<Producto[]> {
+  ): Observable<ProductosPaginados> {
     const params = new HttpParams()
       .set('pagina', pagina.toString())
       .set('items', items.toString());
 
-    return this.http.get<Producto[]>(this.apiUrl, { params });
+    return this.http.get<ProductosPaginados>(this.apiUrl, { params });
   }
 }

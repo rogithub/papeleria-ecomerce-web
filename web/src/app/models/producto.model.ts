@@ -10,3 +10,13 @@ export interface Producto {
   video: string | null;
   prioridad: number | null;
 }
+
+export interface ProductosPaginados {
+  productos: Producto[];
+  paginacion: {
+    totalRows: number;
+    paginaActual: number;
+    rowsPorPagina: number;
+    totalPaginas: number;
+  };
+}
