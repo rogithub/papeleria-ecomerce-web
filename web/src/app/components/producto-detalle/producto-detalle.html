@@ -30,26 +30,39 @@
       <div class="col-md-6">
         <!-- Imagen principal -->
         <div class="product-image-main mb-3">
-          <img 
-            [src]="obtenerUrlFoto(fotoPrincipal)" 
-            [alt]="producto.nombre"
-            class="img-fluid rounded w-100"
-            style="max-height: 500px; object-fit: cover;"
-          >
+          @if (fotoPrincipal && fotoPrincipal !== obtenerUrlFotoPlaceholder()) {
+            <img 
+              [src]="obtenerUrlFoto(fotoPrincipal)" 
+              [alt]="producto.nombre"
+              class="img-fluid rounded w-100"
+              style="max-height: 500px; object-fit: cover;"
+            >
+          } @else {
+            <div class="placeholder-container d-flex flex-column align-items-center justify-content-center bg-light rounded w-100 text-muted"
+                style="height: 500px;">
+              <i class="bi bi-image display-1 mb-3"></i>
+              <h4>Imagen no disponible</h4>
+              <p class="text-center">Este producto no tiene imágenes<br>disponibles por el momento</p>
+            </div>
+          }
         </div>
 
         <!-- Miniaturas -->
         @if (producto.fotos && producto.fotos.length > 1) {
-          <div class="product-thumbnails d-flex gap-2">
+          <div class="product-thumbnails d-flex gap-2 flex-wrap">
             @for (foto of producto.fotos; track foto; let i = $index) {
-              <img 
-                [src]="obtenerUrlFoto(foto)" 
-                [alt]="'Miniatura ' + (i + 1)"
-                class="img-thumbnail cursor-pointer"
-                [class.border-primary]="foto === fotoPrincipal"
-                style="width: 80px; height: 80px; object-fit: cover;"
-                (click)="cambiarFotoPrincipal(foto)"
-              >
+              <div class="thumbnail-wrapper position-relative">
+                <img 
+                  [src]="obtenerUrlFoto(foto)" 
+                  [alt]="'Miniatura ' + (i + 1)"
+                  class="img-thumbnail cursor-pointer"
+                  [class.border-primary]="foto === fotoPrincipal"
+                  [class.border-3]="foto === fotoPrincipal"
+                  style="width: 80px; height: 80px; object-fit: cover;"
+                  (click)="cambiarFotoPrincipal(foto)"
+                  (error)="cambiarFotoPrincipal(obtenerUrlFotoPlaceholder())"
+                >
+              </div>
             }
           </div>
         }

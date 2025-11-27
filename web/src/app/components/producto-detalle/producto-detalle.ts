@@ -32,7 +32,14 @@ export class ProductoDetalleComponent implements OnInit {
     this.productoService.obtenerProductoPorId(id).subscribe({
       next: (data) => {
         this.producto = data;
-        this.fotoPrincipal = data.fotos?.[0] || this.obtenerUrlFotoPlaceholder();
+        
+        // Si no hay fotos, usar placeholder inmediatamente
+        if (!data.fotos || data.fotos.length === 0) {
+          this.fotoPrincipal = this.obtenerUrlFotoPlaceholder();
+        } else {
+          this.fotoPrincipal = data.fotos[0];
+        }
+        
         this.cargando = false;
       },
       error: (err) => {
@@ -41,6 +48,12 @@ export class ProductoDetalleComponent implements OnInit {
         console.error('Error:', err);
       }
     });
+  }
+
+  // Método mejorado para manejar errores de carga de imagen
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.src = this.obtenerUrlFotoPlaceholder();
   }
 
   cambiarFotoPrincipal(foto: string): void {
