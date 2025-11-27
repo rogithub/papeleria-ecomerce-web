@@ -34,3 +34,39 @@
     font-size: 2rem;
   }
 }
+
+.placeholder-container {
+  border: 2px dashed #dee2e6;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: #6c757d;
+    background-color: #f8f9fa !important;
+  }
+}
+
+.placeholder-brand {
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  
+  .brand-logo {
+    opacity: 0.8;
+  }
+}
+
+.placeholder-category {
+  border: 2px dashed #dee2e6;
+  
+  .category-icon {
+    opacity: 0.7;
+  }
+}
+
+// Efectos hover para mejorar la interactividad
+.cursor-pointer {
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+  }
+}
