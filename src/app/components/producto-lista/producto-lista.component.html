@@ -1,0 +1,101 @@
+<!-- Loading spinner -->
+@if (cargando) {
+  <div class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="mt-3">Cargando productos...</p>
+  </div>
+}
+
+<!-- Error message -->
+@if (error) {
+  <div class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
+  </div>
+}
+
+<!-- Products grid -->
+@if (!cargando && !error) {
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    @for (producto of productos; track producto.id) {
+      <div class="col">
+        <div class="card shadow-sm h-100">
+          
+          <!-- Imagen o placeholder -->
+          <div class="card-img-top-wrapper" style="height: 225px; overflow: hidden; background-color: #f8f9fa;">
+            @if (producto.foto) {
+              <img 
+                [src]="obtenerUrlFoto(producto.foto)" 
+                [alt]="producto.nombre"
+                class="card-img-top w-100 h-100"
+                style="object-fit: cover;"
+              >
+            } @else {
+              <div class="d-flex align-items-center justify-content-center h-100">
+                <i class="bi bi-image" style="font-size: 4rem; color: #dee2e6;"></i>
+              </div>
+            }
+          </div>
+
+          <div class="card-body d-flex flex-column">
+            <!-- Categoría -->
+            <small class="text-muted text-uppercase" style="font-size: 0.75rem;">
+              {{ producto.categoria }}
+            </small>
+            
+            <!-- Nombre del producto -->
+            <h5 class="card-title mt-1">{{ producto.nombre }}</h5>
+            
+            <!-- Precio -->
+            <p class="card-text mb-2">
+              <strong class="text-success" style="font-size: 1.5rem;">
+                ${{ formatearPrecio(producto.precioVenta) }}
+              </strong>
+              <small class="text-muted"> / {{ producto.unidadMedida }}</small>
+            </p>
+
+            <!-- Stock -->
+            <p class="card-text mb-3">
+              <span 
+                class="badge" 
+                [ngClass]="producto.stock > 10 ? 'bg-success' : producto.stock > 0 ? 'bg-warning text-dark' : 'bg-danger'"
+              >
+                <i class="bi bi-box-seam"></i> 
+                {{ producto.stock }} en stock
+              </span>
+            </p>
+
+            <!-- Botones de acción -->
+            <div class="mt-auto d-flex gap-2">
+              <a 
+                [href]="'https://wa.me/524522018336?text=Hola, me interesa: '+ '[' + producto.nid + '] ' + producto.nombre" 
+                target="_blank"
+                class="btn btn-whatsapp btn-sm flex-fill"
+              >
+                <i class="bi bi-whatsapp"></i> Pedir
+              </a>
+              
+              @if (producto.video) {
+                <a 
+                  [href]="producto.video" 
+                  target="_blank"
+                  class="btn btn-tiktok btn-sm"
+                  title="Ver video en TikTok"
+                >
+                  <i class="bi bi-tiktok"></i>
+                </a>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <!-- Empty state cuando no hay productos -->
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-inbox" style="font-size: 4rem; color: #dee2e6;"></i>
+        <p class="mt-3 text-muted">No hay productos disponibles</p>
+      </div>
+    }
+  </div>
+}
