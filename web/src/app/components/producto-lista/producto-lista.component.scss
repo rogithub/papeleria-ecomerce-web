@@ -86,3 +86,25 @@
     font-size: 0.8rem;
   }
 }
+
+// Estilos para la barra de búsqueda
+.input-group {
+  .form-control {
+    border-right: 0;
+    
+    &:focus {
+      box-shadow: none;
+      border-color: #ced4da;
+    }
+  }
+  
+  .btn {
+    border-left: 0;
+  }
+}
+
+// Efecto de carga durante búsqueda
+.buscando {
+  opacity: 0.7;
+  pointer-events: none;
+}

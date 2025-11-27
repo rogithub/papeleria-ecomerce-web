@@ -21,13 +21,16 @@ export class ProductoListaComponent implements OnInit {
   totalPaginas = 0;
   totalProductos = 0;
 
+  // Variable para búsqueda
+  terminoBusqueda = '';
+
   ngOnInit(): void {
     this.cargarProductos(1); // Empezar en página 1
   }
 
-  cargarProductos(pagina: number): void {
+  cargarProductos(pagina: number, busqueda?: string): void {
     this.cargando = true;
-    this.productoService.obtenerProductos(pagina, 30).subscribe({
+    this.productoService.obtenerProductos(pagina, 30, busqueda || this.terminoBusqueda).subscribe({
       next: (data) => {
         this.productos = data.productos;
         this.paginaActual = data.paginacion.paginaActual;
@@ -41,6 +44,17 @@ export class ProductoListaComponent implements OnInit {
         console.error('Error:', err);
       }
     });
+  }
+
+  buscar(termino: string): void {
+    this.terminoBusqueda = termino.trim();
+    this.cargarProductos(1, this.terminoBusqueda);
+  }
+
+  limpiarBusqueda(inputRef: HTMLInputElement): void {
+    this.terminoBusqueda = '';
+    inputRef.value = '';
+    this.cargarProductos(1);
   }
 
   cambiarPagina(nuevaPagina: number | string): void {

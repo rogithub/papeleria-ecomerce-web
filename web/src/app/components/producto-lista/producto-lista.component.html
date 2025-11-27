@@ -15,6 +15,47 @@
   </div>
 }
 
+<!-- Barra de búsqueda -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <div class="input-group">
+      <input 
+        type="text" 
+        class="form-control" 
+        placeholder="Buscar productos por nombre, categoría..." 
+        #searchInput
+        (keyup.enter)="buscar(searchInput.value)"
+      >
+      <button 
+        class="btn btn-outline-primary" 
+        type="button" 
+        (click)="buscar(searchInput.value)"
+      >
+        <i class="bi bi-search"></i> Buscar
+      </button>
+      @if (terminoBusqueda) {
+        <button 
+          class="btn btn-outline-secondary" 
+          type="button" 
+          (click)="limpiarBusqueda(searchInput)"
+        >
+          <i class="bi bi-x"></i>
+        </button>
+      }
+    </div>
+    @if (terminoBusqueda) {
+      <div class="mt-2">
+        <small class="text-muted">
+          Resultados para: "{{ terminoBusqueda }}"
+          <a href="javascript:void(0)" (click)="limpiarBusqueda(searchInput)" class="ms-2">
+            <i class="bi bi-x-circle"></i> Limpiar
+          </a>
+        </small>
+      </div>
+    }
+  </div>
+</div>
+
 <!-- Products grid -->
 @if (!cargando && !error) {
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">

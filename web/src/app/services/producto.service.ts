@@ -13,12 +13,17 @@ export class ProductoService {
 
   obtenerProductos(
     pagina: number = 1, 
-    items: number = 30
+    items: number = 30,
+    search: string = ''  // Nuevo parámetro opcional
   ): Observable<ProductosPaginados> {
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('pagina', pagina.toString())
       .set('items', items.toString());
 
+    // Agregar parámetro de búsqueda si existe
+    if (search && search.trim() !== '') {
+      params = params.set('search', search.trim());
+    }
     return this.http.get<ProductosPaginados>(this.apiUrl, { params });
   }
 }
