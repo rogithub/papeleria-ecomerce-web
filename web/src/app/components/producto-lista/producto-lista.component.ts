@@ -2,16 +2,21 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../models/producto.model';
+import { Router, RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-producto-lista',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './producto-lista.component.html',
   styleUrl: './producto-lista.component.scss'
 })
 export class ProductoListaComponent implements OnInit {
   private productoService = inject(ProductoService);
   
+  constructor(private router: Router) {}
+
+
   productos: Producto[] = [];
   cargando = true;
   error = '';
@@ -84,5 +89,9 @@ export class ProductoListaComponent implements OnInit {
 
   formatearPrecio(precio: number): string {
     return precio.toFixed(2);
+  }
+
+  verDetalle(productoId: number): void {
+    this.router.navigate(['/productos', productoId]);
   }
 }
