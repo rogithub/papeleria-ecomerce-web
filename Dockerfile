@@ -29,8 +29,9 @@ FROM nginx:alpine
 # Fíjate en la ruta de origen: /usr/src/app/dist/web/browser
 COPY --from=build /usr/src/app/dist/web/browser /usr/share/nginx/html
 
-## do not copy
-##COPY nginx.conf /etc/nginx/conf.d/default.conf
+## En cloudflare poner primero la ruta de /api y luego xplaya.com
+## Para que no haya conflictos con las rutas.
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 
 # Exponemos el puerto 80, que es el puerto por defecto de Nginx.
