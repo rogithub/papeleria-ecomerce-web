@@ -8,8 +8,8 @@ import { Router, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-producto-lista',
   imports: [CommonModule, RouterModule],
-  templateUrl: './producto-lista.component.html',
-  styleUrl: './producto-lista.component.scss'
+  templateUrl: './producto-lista.html',
+  styleUrl: './producto-lista.scss'
 })
 export class ProductoListaComponent implements OnInit {
   private productoService = inject(ProductoService);
