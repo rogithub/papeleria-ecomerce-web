@@ -84,7 +84,13 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
   }
 
   volverALista(): void {
-    this.router.navigate(['/productos']);
+    const estado = this.productoService.obtenerEstado();
+    this.router.navigate(['/productos'], {
+      queryParams: {
+        pagina: estado.pagina,
+        busqueda: estado.busqueda || null
+      }
+    });
   }
 
   ngOnDestroy(): void {

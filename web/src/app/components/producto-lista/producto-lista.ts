@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../models/producto.model';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -14,7 +14,8 @@ import { Router, RouterModule } from '@angular/router';
 export class ProductoListaComponent implements OnInit {
   private productoService = inject(ProductoService);
   
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
 
 
   productos: Producto[] = [];
@@ -30,11 +31,32 @@ export class ProductoListaComponent implements OnInit {
   terminoBusqueda = '';
 
   ngOnInit(): void {
-    this.cargarProductos(1); // Empezar en página 1
+    // Leer parámetros de la URL
+    this.route.queryParams.subscribe(params => {
+      const pagina = params['pagina'] ? parseInt(params['pagina']) : 1;
+      const busqueda = params['busqueda'] || '';
+      
+      this.terminoBusqueda = busqueda;
+      this.cargarProductos(pagina, busqueda);
+    });
   }
 
   cargarProductos(pagina: number, busqueda?: string): void {
     this.cargando = true;
+
+    // Guardar estado en el servicio
+    this.productoService.guardarEstado(pagina, busqueda || this.terminoBusqueda);
+  
+    // Actualizar la URL con los parámetros
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { 
+        pagina: pagina,
+        busqueda: busqueda || this.terminoBusqueda || null
+      },
+      queryParamsHandling: 'merge'
+    });
+    
     this.productoService.obtenerProductos(pagina, 9, busqueda || this.terminoBusqueda).subscribe({
       next: (data) => {
         this.productos = data.productos;
@@ -59,6 +81,14 @@ export class ProductoListaComponent implements OnInit {
   limpiarBusqueda(inputRef: HTMLInputElement): void {
     this.terminoBusqueda = '';
     inputRef.value = '';
+    
+    // Limpiar parámetros de búsqueda de la URL
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { busqueda: null },
+      queryParamsHandling: 'merge'
+    });
+    
     this.cargarProductos(1);
   }
 

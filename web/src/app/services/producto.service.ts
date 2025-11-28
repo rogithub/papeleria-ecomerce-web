@@ -12,6 +12,9 @@ export class ProductoService {
   private http = inject(HttpClient);
   private apiUrl: string = `${environment.apiUrl}/productos`;
 
+  private ultimaPagina = 1;
+  private ultimaBusqueda = '';
+
   obtenerProductos(
     pagina: number = 1, 
     items: number = 9,
@@ -30,5 +33,19 @@ export class ProductoService {
 
   obtenerProductoPorId(id: number): Observable<DetalleProducto> {
     return this.http.get<DetalleProducto>(`${this.apiUrl}/${id}`);
+  }
+
+  // Guardar el estado actual
+  guardarEstado(pagina: number, busqueda: string): void {
+    this.ultimaPagina = pagina;
+    this.ultimaBusqueda = busqueda;
+  }
+
+  // Obtener el estado guardado
+  obtenerEstado(): { pagina: number, busqueda: string } {
+    return {
+      pagina: this.ultimaPagina,
+      busqueda: this.ultimaBusqueda
+    };
   }
 }
