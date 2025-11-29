@@ -108,24 +108,29 @@
               </span>
             </p>
 
-            <!-- Botones de acción -->
-            <div class="mt-auto d-flex gap-2">
-              <a 
-                [href]="'https://wa.me/524522018336?text=Hola, me interesa: '+ '[' + producto.nid + '] ' + producto.nombre" 
-                target="_blank"
-                class="btn btn-whatsapp btn-sm flex-fill"
+            <!-- Acciones del producto -->
+            <div class="mt-auto d-flex flex-column gap-2">
+              <button 
+                class="btn btn-outline-primary btn-sm" 
+                (click)="verDetalle(producto.nid); $event.stopPropagation()"
               >
-                <i class="bi bi-whatsapp"></i> Pedir
-              </a>
-              
+                <i class="bi bi-eye"></i> Ver Detalle
+              </button>
+              <button 
+                class="btn btn-success btn-sm" 
+                (click)="agregarAlCarrito(producto); $event.stopPropagation()"
+              >
+                <i class="bi bi-cart-plus"></i> Añadir al Carrito
+              </button>
               @if (producto.video) {
                 <a 
                   [href]="producto.video" 
                   target="_blank"
-                  class="btn btn-tiktok btn-sm"
+                  class="btn btn-outline-dark btn-sm"
                   title="Ver video en TikTok"
+                  (click)="$event.stopPropagation()"
                 >
-                  <i class="bi bi-tiktok"></i>
+                  <i class="bi bi-tiktok"></i> Ver Video
                 </a>
               }
             </div>

@@ -1,0 +1,9 @@
+<button class="btn btn-outline-light position-relative" (click)="verCarrito()">
+    <i class="bi bi-cart-fill"></i>
+    @if (totalItems > 0) {
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{ totalItems }}
+            <span class="visually-hidden">artículos en el carrito</span>
+        </span>
+    }
+</button>

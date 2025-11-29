@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../models/producto.model';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
-
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-producto-lista',
@@ -14,7 +14,11 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 export class ProductoListaComponent implements OnInit {
   private productoService = inject(ProductoService);
   
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router, 
+    private route: ActivatedRoute,
+    private cartService: CartService
+  ) {}
 
 
 
@@ -123,5 +127,11 @@ export class ProductoListaComponent implements OnInit {
 
   verDetalle(productoId: number): void {
     this.router.navigate(['/productos', productoId]);
+  }
+
+  agregarAlCarrito(producto: Producto): void {
+    this.cartService.agregarProducto(producto);
+    // Opcional: mostrar un mensaje de éxito o animación
+    alert(`"${producto.nombre}" agregado al carrito.`);
   }
 }
