@@ -170,7 +170,7 @@
             (change)="cambiarPagina($any($event.target).value)"
           >
             @for (pagina of generarArrayPaginas(); track pagina) {
-              <option [value]="pagina">{{ pagina }}</option>
+              <option [value]="pagina" [selected]="paginaActual === pagina">{{ pagina }}</option>
             }
           </select>
           <span class="text-muted small">/ {{ totalPaginas }}</span>
