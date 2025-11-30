@@ -23,12 +23,20 @@
                 <tr>
                   <td>
                     <div class="d-flex align-items-center">
+                      @if(item.foto) {
                       <img [src]="obtenerUrlFoto(item.foto)"
                            [alt]="item.nombre" class="img-thumbnail me-3" style="width: 80px; height: 80px; object-fit: cover;">
                       <div>
                         <h6 class="mb-0">{{ item.nombre }}</h6>
                         <small class="text-muted">ID: {{ item.nid }}</small>
                       </div>
+                      } @else {
+                        <div class="bg-secondary border me-3" style="width: 80px; height: 80px;"></div>
+                        <div>
+                          <h6 class="mb-0">{{ item.nombre }}</h6>
+                          <small class="text-muted">ID: {{ item.nid }}</small>
+                        </div>
+                      }
                     </div>
                   </td>
                   <td class="text-center">${{ formatearPrecio(item.precioVenta) }}</td>

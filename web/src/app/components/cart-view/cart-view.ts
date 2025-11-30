@@ -77,10 +77,7 @@ export class CartView implements OnInit {
     return precio.toFixed(2);
   }
 
-  obtenerUrlFoto(foto: string | null): string {
-    if (!foto) {
-      return 'https://via.placeholder.com/300x225?text=Sin+Imagen';
-    }
+  obtenerUrlFoto(foto: string): string {
     return `https://cntnt.xplaya.com/papeleria-fotos-productos/${foto}`;
   }
 }
