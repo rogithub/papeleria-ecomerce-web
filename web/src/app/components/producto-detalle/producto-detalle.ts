@@ -2,8 +2,10 @@ import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductoService } from '../../services/producto.service';
-import { DetalleProducto } from '../../models/detalleProducto'; // Ajusta la ruta
+import { CartService } from '../../services/cart.service';
+import { DetalleProducto } from '../../models/detalleProducto'; 
 import { MetaService } from '../../services/meta.service';
+import { Producto } from '../../models/producto.model';
 
 @Component({
   selector: 'app-producto-detalle',
@@ -16,6 +18,7 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private productoService = inject(ProductoService);
   private metaService = inject(MetaService);
+  private cartService = inject(CartService);
 
   producto?: DetalleProducto;
   cargando = true;
@@ -38,10 +41,10 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
         // Actualizar meta tags con la información del producto
         this.metaService.updateProductTags({
           nombre: data.nombre,
-          precio: data.precio,
+          precio: data.precioVenta,
           categoria: data.categoria,
           fotos: data.fotos,
-          id: data.id
+          id: data.nid
         });
         
         // Si no hay fotos, usar placeholder inmediatamente
@@ -73,6 +76,25 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
 
   obtenerUrlFotoPlaceholder(): string {
     return 'https://via.placeholder.com/600x400?text=Sin+Imagen';
+  }
+
+  agregarAlCarrito(producto: DetalleProducto): void {
+    let p: Producto = {
+      nid: producto.nid,
+      id: producto.id,
+      nombre: producto.nombre,
+      categoria: producto.categoria,
+      stock: producto.stock,
+      unidadMedida: producto.unidadMedida,      
+      precioVenta: producto.precioVenta,
+      foto: producto.fotos && producto.fotos.length > 0 ? producto.fotos[0] : null,
+      video: producto.videos && producto.videos.length > 0 ? producto.videos[0] : null,
+      prioridad: 0
+    }
+
+    this.cartService.agregarProducto(p);
+    // Redireccionar al carrito
+    this.router.navigate(['/carrito']);
   }
 
   obtenerUrlFoto(foto: string): string {

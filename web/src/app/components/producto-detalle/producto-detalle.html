@@ -79,7 +79,7 @@
         <!-- Precio -->
         <div class="mb-4">
           <span class="text-success fw-bold display-6">
-            ${{ formatearPrecio(producto.precio) }}
+            ${{ formatearPrecio(producto.precioVenta) }}
           </span>
           <span class="text-muted"> / {{ producto.unidadMedida }}</span>
         </div>
@@ -97,14 +97,12 @@
 
         <!-- Botones de acción -->
         <div class="d-flex flex-column gap-3 mb-4">
-          <!-- WhatsApp -->
-          <a 
-            [href]="'https://wa.me/524522018336?text=Hola, me interesa el producto: ' + producto.nombre + ' (ID: ' + producto.id + ')'" 
-            target="_blank"
-            class="btn btn-success btn-lg py-3"
-          >
-            <i class="bi bi-whatsapp"></i> Pedir por WhatsApp
-          </a>
+          <button 
+                class="btn btn-success btn-lg py-3" 
+                (click)="agregarAlCarrito(producto); $event.stopPropagation()"
+              >
+                <i class="bi bi-cart-plus"></i> Añadir al Carrito
+              </button>
 
           <!-- Videos -->
           @if (producto.videos && producto.videos.length > 0) {

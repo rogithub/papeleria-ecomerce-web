@@ -1,8 +1,9 @@
 // En product-card.ts o en un archivo de modelos compartido
 export interface DetalleProducto {
-  id: number;
+  id: string;
+  nid: number,
   nombre: string;
-  precio: number;
+  precioVenta: number;
   unidadMedida: string;
   categoria: string;
   stock: number;
