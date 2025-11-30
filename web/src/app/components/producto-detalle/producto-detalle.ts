@@ -79,6 +79,15 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
   }
 
   agregarAlCarrito(producto: DetalleProducto): void {
+    var foto = producto.fotos && producto.fotos.length > 0 ? producto.fotos[0] : null;
+    var video = producto.videos && producto.videos.length > 0 ? producto.videos[0] : null
+    if (foto && foto.startsWith('https://cntnt.xplaya.com/papeleria-fotos-productos/')) {
+      foto = foto.replace('https://cntnt.xplaya.com/papeleria-fotos-productos/', '');
+    }
+    if (foto && foto.startsWith('https://via.placeholder.com')) {
+      foto = null;
+    }
+
     let p: Producto = {
       nid: producto.nid,
       id: producto.id,
@@ -87,8 +96,8 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
       stock: producto.stock,
       unidadMedida: producto.unidadMedida,      
       precioVenta: producto.precioVenta,
-      foto: producto.fotos && producto.fotos.length > 0 ? producto.fotos[0] : null,
-      video: producto.videos && producto.videos.length > 0 ? producto.videos[0] : null,
+      foto: foto,
+      video: video,
       prioridad: 0
     }
 

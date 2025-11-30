@@ -81,9 +81,6 @@ export class CartView implements OnInit {
     if (!foto) {
       return 'https://via.placeholder.com/300x225?text=Sin+Imagen';
     }
-    if (foto.startsWith('https')) {
-      return foto;
-    }
     return `https://cntnt.xplaya.com/papeleria-fotos-productos/${foto}`;
   }
 }
