@@ -76,4 +76,11 @@ export class CartView implements OnInit {
   formatearPrecio(precio: number): string {
     return precio.toFixed(2);
   }
+
+  obtenerUrlFoto(foto: string | null): string {
+    if (!foto) {
+      return 'https://via.placeholder.com/300x225?text=Sin+Imagen';
+    }
+    return `https://cntnt.xplaya.com/papeleria-fotos-productos/${foto}`;
+  }
 }
