@@ -131,7 +131,7 @@ export class ProductoListaComponent implements OnInit {
 
   agregarAlCarrito(producto: Producto): void {
     this.cartService.agregarProducto(producto);
-    // Opcional: mostrar un mensaje de éxito o animación
-    alert(`"${producto.nombre}" agregado al carrito.`);
+    // Redireccionar al carrito
+    this.router.navigate(['/carrito']);
   }
 }
