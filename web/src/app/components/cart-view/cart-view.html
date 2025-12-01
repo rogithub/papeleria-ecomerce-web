@@ -6,8 +6,9 @@
   @if (cartItems.length > 0) {
     <div class="card shadow-sm">
       <div class="card-body">
-        <!-- Tabla de productos -->
-        <div class="table-responsive">
+        
+        <!-- Vista de TABLA para pantallas grandes (md y superiores) -->
+        <div class="table-responsive d-none d-md-block">
           <table class="table align-middle">
             <thead>
               <tr>
@@ -62,22 +63,82 @@
           </table>
         </div>
 
+        <!-- Vista de CARDS para móviles (menores a md) -->
+        <div class="d-md-none">
+          @for (item of cartItems; track item.nid) {
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <!-- Imagen del producto -->
+                  <div class="col-4">
+                    @if(item.foto) {
+                      <img [src]="obtenerUrlFoto(item.foto)"
+                           [alt]="item.nombre" 
+                           class="img-fluid rounded"
+                           style="width: 100%; height: 100px; object-fit: cover;">
+                    } @else {
+                      <div class="bg-secondary border border-danger rounded" 
+                           style="width: 100%; height: 100px;"></div>
+                    }
+                  </div>
+                  
+                  <!-- Información del producto -->
+                  <div class="col-8">
+                    <h6 class="mb-1">{{ item.nombre }}</h6>
+                    <small class="text-muted d-block mb-2">ID: {{ item.nid }}</small>
+                    <p class="mb-1"><strong>Precio:</strong> ${{ formatearPrecio(item.precioVenta) }}</p>
+                  </div>
+                </div>
+
+                <hr class="my-2">
+
+                <!-- Controles de cantidad y subtotal -->
+                <div class="row align-items-center">
+                  <div class="col-6">
+                    <label class="form-label mb-1 small">Cantidad:</label>
+                    <input 
+                      type="number" 
+                      class="form-control form-control-sm" 
+                      [value]="item.cantidad"
+                      min="0"
+                      (change)="updateQuantity(item, $any($event.target).value)"
+                      aria-label="Cantidad">
+                  </div>
+                  <div class="col-6 text-end">
+                    <small class="text-muted d-block">Subtotal:</small>
+                    <strong class="text-success">${{ formatearPrecio(item.precioVenta * item.cantidad) }}</strong>
+                  </div>
+                </div>
+
+                <!-- Botón eliminar -->
+                <button class="btn btn-outline-danger btn-sm w-100 mt-2" 
+                        (click)="removeItem(item)">
+                  <i class="bi bi-trash"></i> Eliminar
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+
         <hr>
 
         <!-- Resumen y acciones -->
         <div class="row mt-4">
-          <div class="col-md-6 mb-3">
-            <button class="btn btn-outline-secondary" routerLink="/productos">
+          <div class="col-12 col-md-6 mb-3">            
+            <button class="btn btn-outline-secondary btn-sm w-100 w-md-auto mb-2 mb-md-0 me-md-2" routerLink="/productos">
               <i class="bi bi-arrow-left"></i> Seguir Comprando
             </button>
-            <button class="btn btn-outline-danger ms-2" (click)="clearCart()">
+            
+            <button class="btn btn-outline-danger btn-sm w-100 w-md-auto" (click)="clearCart()">
               <i class="bi bi-x-circle"></i> Vaciar Carrito
             </button>
           </div>
-          <div class="col-md-6 text-md-end">
-            <h4>Total ({{ totalItems }} artículos): <span class="text-success fw-bold">${{ formatearPrecio(totalPrice) }}</span></h4>
-            <button class="btn btn-success btn-lg mt-3" (click)="checkout()">
-              <i class="bi bi-whatsapp"></i> Finalizar Pedido por WhatsApp
+          <div class="col-12 col-md-6 text-md-end">
+            <h4 class="mb-3">Total ({{ totalItems }} artículos): 
+              <span class="text-success fw-bold d-block d-md-inline">${{ formatearPrecio(totalPrice) }}</span>
+            </h4>
+            <button class="btn btn-success w-100 w-md-auto" (click)="checkout()">
+              <i class="bi bi-whatsapp"></i> Hacer pedido WhatsApp
             </button>
           </div>
         </div>

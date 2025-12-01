@@ -1,0 +1,62 @@
+// Mejoras para móvil
+@media (max-width: 767px) {
+  // Reducir padding del container en móvil
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  // Ajustar tamaño del título
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  // Cards de productos más compactas
+  .card {
+    .card-body {
+      padding: 0.75rem;
+    }
+  }
+
+  // Inputs de cantidad más grandes para móvil
+  input[type="number"] {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  // Botones más espaciados en móvil
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+  }
+}
+
+// Mejorar la apariencia de los inputs de número
+input[type="number"] {
+  -moz-appearance: textfield; // Firefox
+  
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+// Transiciones suaves para las cards
+.card {
+  transition: box-shadow 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  }
+}
+
+// Mejorar el espaciado del resumen de total
+.text-success {
+  font-size: 1.25rem;
+  
+  @media (max-width: 767px) {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+  }
+}
