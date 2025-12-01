@@ -57,7 +57,7 @@ export class CartView implements OnInit {
       mensaje += `- ${item.nombre} (ID: ${item.nid}) - Cantidad: ${item.cantidad}\n`;
     });
     mensaje += `\n*Total de artículos: ${this.totalItems}*`;
-    mensaje += `\n*Precio total aproximado: $${this.totalPrice.toFixed(2)}*`;
+    mensaje += `\n*Precio total: $${this.totalPrice.toFixed(2)}*`;
 
     // Codificamos el mensaje para la URL
     const mensajeCodificado = encodeURIComponent(mensaje);
