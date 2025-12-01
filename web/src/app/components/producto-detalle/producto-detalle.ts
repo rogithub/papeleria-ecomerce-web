@@ -78,6 +78,35 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
     return 'https://via.placeholder.com/600x400?text=Sin+Imagen';
   }
 
+  compartirProducto(): void {
+    if (!this.producto) return;
+
+    // Construir la URL de papeleria.xplaya.com
+    const urlParaCompartir = `https://papeleria.xplaya.com/ver/${this.producto.nid}`;
+    const textoCompartir = `${this.producto.nombre} - $${this.formatearPrecio(this.producto.precioVenta)}`;
+
+    // Verificar si el navegador soporta la API de compartir nativa
+    if (navigator.share) {
+      navigator.share({
+        title: this.producto.nombre,
+        text: textoCompartir,
+        url: urlParaCompartir
+      })
+      .then(() => console.log('Compartido exitosamente'))
+      .catch((error) => console.log('Error al compartir:', error));
+    } else {
+      // Fallback: copiar al portapapeles
+      navigator.clipboard.writeText(urlParaCompartir)
+        .then(() => {
+          alert('¡Enlace copiado al portapapeles!\n' + urlParaCompartir);
+        })
+        .catch(() => {
+          // Si falla el clipboard, mostrar la URL para copiar manualmente
+          prompt('Copia este enlace para compartir:', urlParaCompartir);
+        });
+    }
+  }
+
   agregarAlCarrito(producto: DetalleProducto): void {
     var foto = producto.fotos && producto.fotos.length > 0 ? producto.fotos[0] : null;
     var video = producto.videos && producto.videos.length > 0 ? producto.videos[0] : null

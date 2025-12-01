@@ -104,6 +104,14 @@
                 <i class="bi bi-cart-plus"></i> Añadir al Carrito
               </button>
 
+          <!-- Botón de compartir -->
+          <button 
+                class="btn btn-outline-primary py-2" 
+                (click)="compartirProducto()"
+              >
+                <i class="bi bi-share"></i> Compartir Producto
+              </button>
+
           <!-- Videos -->
           @if (producto.videos && producto.videos.length > 0) {
             <div class="mt-3">
