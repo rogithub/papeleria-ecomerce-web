@@ -124,11 +124,10 @@
 
         <!-- Resumen y acciones -->
         <div class="row mt-4">
-          <div class="col-12 col-md-6 mb-3">            
-            <button class="btn btn-outline-secondary btn-sm w-100 w-md-auto mb-2 mb-md-0 me-md-2" routerLink="/productos">
+          <div class="col-12 col-md-6 mb-3 d-md-flex gap-md-2">
+            <button class="btn btn-outline-secondary btn-sm w-100 w-md-auto mb-2 mb-md-0" routerLink="/productos">
               <i class="bi bi-arrow-left"></i> Seguir Comprando
             </button>
-            
             <button class="btn btn-outline-danger btn-sm w-100 w-md-auto" (click)="clearCart()">
               <i class="bi bi-x-circle"></i> Vaciar Carrito
             </button>
@@ -138,7 +137,7 @@
               <span class="text-success fw-bold d-block d-md-inline">${{ formatearPrecio(totalPrice) }}</span>
             </h4>
             <button class="btn btn-success w-100 w-md-auto" (click)="checkout()">
-              <i class="bi bi-whatsapp"></i> Hacer pedido WhatsApp
+              <i class="bi bi-whatsapp"></i> Finalizar Pedido por WhatsApp
             </button>
           </div>
         </div>
