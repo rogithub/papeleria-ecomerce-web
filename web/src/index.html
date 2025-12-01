@@ -36,6 +36,45 @@
     <meta name="author" content="xplaya.com" />
     <title>Papelería</title>
     <meta name="theme-color" content="#712cf9" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "Papelería y Mercería xPlaya",
+      "image": "https://xplaya.com/img/papeleria.png",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Villas del Sol, a un costado de Palmas Turquesa",
+        "addressLocality": "Playa del Carmen",
+        "addressRegion": "Quintana Roo",
+        "addressCountry": "MX"
+      },
+      "telephone": "+52-452-201-8336",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "06:30",
+          "closes": "18:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "09:00",
+          "closes": "14:00"
+        }
+      ],
+      "priceRange": "$",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://xplaya.com/productos?busqueda={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
   </head>
   <body>
     <app-root></app-root>    
