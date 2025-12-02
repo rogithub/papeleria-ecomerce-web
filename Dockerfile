@@ -1,41 +1,26 @@
-# --- Etapa 1: Compilación (Build Stage) ---
-# Usamos una imagen oficial de Node.js (versión 20) para construir nuestro proyecto de Angular.
-# La nombramos 'build' para poder referenciarla después.
-FROM node:24 AS build
-
-# Establecemos el directorio de trabajo dentro del contenedor.
+FROM node:24-alpine AS build
 WORKDIR /usr/src/app
 
-# Copiamos el package.json y package-lock.json desde la subcarpeta correcta.
-# Hacemos esto primero para aprovechar el cache de Docker.
+# Copiar package files e instalar dependencias
 COPY web/package*.json ./
-
-# Usamos npm ci para una instalación limpia y rápida, ideal para CI/CD.
 RUN npm ci
 
-# Copiamos todo el resto del código fuente de la aplicación desde la subcarpeta.
+# Copiar código fuente y compilar SSR
 COPY web/. .
-
-# Ejecutamos el comando de build de Angular para producción.
-# Esto generará los archivos estáticos optimizados en la carpeta /dist/web/browser.
 RUN npm run build -- --configuration production
 
-# --- Etapa 2: Imagen Final (Final Stage) ---
-# Empezamos de cero con una imagen oficial de Nginx, súper ligera, basada en Alpine Linux.
-FROM nginx:alpine
+# Etapa final - Runtime
+FROM node:24-alpine
+WORKDIR /usr/src/app
 
-# Copiamos los archivos estáticos compilados desde la etapa 'build' a la carpeta
-# donde Nginx sirve el contenido por defecto.
-# Fíjate en la ruta de origen: /usr/src/app/dist/web/browser
-COPY --from=build /usr/src/app/dist/web/browser /usr/share/nginx/html
+# Copiar los archivos compilados del build
+COPY --from=build /usr/src/app/dist/web /usr/src/app/dist/web
 
-## En cloudflare poner primero la ruta de /api y luego xplaya.com
-## Para que no haya conflictos con las rutas.
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Configurar variable de ambiente para la API interna del cluster
+ENV API_INTERNAL_URL=http://api-inventario-service.api-inventario.svc.cluster.local:8080
 
-
-# Exponemos el puerto 80, que es el puerto por defecto de Nginx.
+# Exponer puerto 30512 (el que usa el servidor SSR)
 EXPOSE 80
 
-# El comando por defecto de la imagen de Nginx ya se encarga de iniciar el servidor,
-# así que no necesitamos un ENTRYPOINT o CMD.
+# Iniciar el servidor SSR
+CMD ["node", "dist/web/server/server.mjs"]

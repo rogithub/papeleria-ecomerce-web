@@ -1,3 +1,5 @@
+import { isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID, inject } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CartItem } from '../models/cartItem.model';
@@ -11,6 +13,9 @@ export class CartService {
   private itemsSubject = new BehaviorSubject<CartItem[]>([]);
   // Hacemos el Observable público para que los componentes puedan suscribirse a los cambios.
   public items$: Observable<CartItem[]> = this.itemsSubject.asObservable();
+
+  private platformId = inject(PLATFORM_ID);
+
 
   // Key para guardar el carrito en el localStorage del navegador.
   private readonly storageKey = 'papeleria_cart';
@@ -79,14 +84,15 @@ export class CartService {
     * Carga el carrito desde el localStorage.
   */
   private cargarCarritoDesdeStorage(): void {
-    // Usamos un try-catch por si el localStorage no está disponible (ej. en modo incógnito estricto).
-    try {
-      const carritoGuardado = localStorage.getItem(this.storageKey);
-      if (carritoGuardado) {
-        this.itemsSubject.next(JSON.parse(carritoGuardado));
+    if (isPlatformBrowser(this.platformId)) {
+      try {
+        const carritoGuardado = localStorage.getItem(this.storageKey);
+        if (carritoGuardado) {
+          this.itemsSubject.next(JSON.parse(carritoGuardado));
+        }
+      } catch (e) {
+        console.error('No se pudo acceder al localStorage para cargar el carrito.', e);
       }
-    } catch (e) {
-      console.error('No se pudo acceder al localStorage para cargar el carrito.', e);
     }
   }
   
