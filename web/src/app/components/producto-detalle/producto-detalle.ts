@@ -81,8 +81,8 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
   compartirProducto(): void {
     if (!this.producto) return;
 
-    // Construir la URL de papeleria.xplaya.com
-    const urlParaCompartir = `https://papeleria.xplaya.com/ver/${this.producto.nid}`;
+    // Construir la URL
+    const urlParaCompartir = `https://xplaya.com/productos/${this.producto.nid}`;
     const textoCompartir = `${this.producto.nombre} - $${this.formatearPrecio(this.producto.precioVenta)}`;
 
     // Verificar si el navegador soporta la API de compartir nativa
