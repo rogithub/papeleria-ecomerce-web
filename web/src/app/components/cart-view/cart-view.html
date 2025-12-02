@@ -29,13 +29,13 @@
                            [alt]="item.nombre" class="img-thumbnail me-3" style="width: 80px; height: 80px; object-fit: cover;">
                       <div>
                         <h6 class="mb-0">{{ item.nombre }}</h6>
-                        <small class="text-muted">ID: {{ item.nid }}</small>
+                        <small class="text-muted">{{ item.unidadMedida }}/{{ item.categoria }}</small>
                       </div>
                       } @else {
                         <div class="bg-secondary border border-danger me-3" style="width: 80px; height: 80px;"></div>
                         <div>
                           <h6 class="mb-0">{{ item.nombre }}</h6>
-                          <small class="text-muted">ID: {{ item.nid }}</small>
+                          <small class="text-muted">{{ item.unidadMedida }}/{{ item.categoria }}</small>
                         </div>
                       }
                     </div>
@@ -85,7 +85,7 @@
                   <!-- Información del producto -->
                   <div class="col-8">
                     <h6 class="mb-1">{{ item.nombre }}</h6>
-                    <small class="text-muted d-block mb-2">ID: {{ item.nid }}</small>
+                    <small class="text-muted d-block mb-2">{{ item.unidadMedida }}/{{ item.categoria }}</small>
                     <p class="mb-1"><strong>Precio:</strong> ${{ formatearPrecio(item.precioVenta) }}</p>
                   </div>
                 </div>
