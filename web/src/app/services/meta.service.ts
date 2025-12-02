@@ -1,5 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
+
 
 export interface MetaTagsConfig {
   title?: string;
@@ -16,6 +18,7 @@ export interface MetaTagsConfig {
 export class MetaService {
   private meta = inject(Meta);
   private titleService = inject(Title);
+  private document = inject(DOCUMENT);
 
   // Configuración por defecto
   private defaultConfig: MetaTagsConfig = {
@@ -28,6 +31,63 @@ export class MetaService {
   };
 
   constructor() {}
+
+  /**
+   * Agrega o actualiza el script JSON-LD para productos
+   */
+  updateProductSchema(producto: {
+    nombre: string;
+    precio: number;
+    categoria: string;
+    fotos?: string[];
+    id: number;
+  }): void {
+    const head = this.document.getElementsByTagName('head')[0];
+    
+    // Remover script anterior si existe
+    const existingScript = this.document.getElementById('product-schema');
+    if (existingScript) {
+      existingScript.remove();
+    }
+    // Crear nuevo script
+    const script = this.document.createElement('script');
+    script.id = 'product-schema';
+    script.type = 'application/ld+json';
+    
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "url": `${this.defaultConfig.url}/productos/${producto.id}`,
+      "name": producto.nombre,
+      "description": `$${producto.precio.toFixed(2)} | ${producto.categoria}`,
+      "image": producto.fotos && producto.fotos.length > 0 ? producto.fotos[0] : '',
+      "offers": {
+        "@type": "Offer",
+        "price": producto.precio.toFixed(2),
+        "priceCurrency": "MXN",
+        "availability": "https://schema.org/InStock"
+      }
+    };
+    script.text = JSON.stringify(schema);
+    head.appendChild(script);
+  }
+
+  /**
+   * Actualiza el canonical link
+   */
+  updateCanonical(url: string): void {
+    const head = this.document.getElementsByTagName('head')[0];
+    let link: HTMLLinkElement | null = this.document.querySelector('link[rel="canonical"]');
+    
+    if (link) {
+      link.setAttribute('href', url);
+    } else {
+      link = this.document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      link.setAttribute('href', url);
+      head.appendChild(link);
+    }
+  }
 
   /**
    * Actualiza todos los meta tags de la página
@@ -112,16 +172,20 @@ export class MetaService {
     fotos?: string[];
     id: number;
   }): void {
+    const productUrl = `${this.defaultConfig.url}/productos/${producto.id}`;
+    
     const config: MetaTagsConfig = {
-      title: `${producto.nombre}`,
-      description: `${producto.nombre} en categoría ${producto.categoria}. Precio: $${producto.precio.toFixed(2)}.`,
+      title: producto.nombre,
+      description: `$${producto.precio.toFixed(2)} | ${producto.categoria}`,
       image: producto.fotos && producto.fotos.length > 0 
         ? producto.fotos[0] 
         : '/img/logocircle.png',
-      url: `${this.defaultConfig.url}/productos/${producto.id}`,
+      url: productUrl,
       type: 'product'
     };
 
     this.updateTags(config);
+    this.updateCanonical(productUrl);
+    this.updateProductSchema(producto);
   }
 }
