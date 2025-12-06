@@ -23,7 +23,7 @@ export class MetaService {
   // Configuración por defecto
   private defaultConfig: MetaTagsConfig = {
     title: 'Papelería',
-    description: 'Papelería y Mercería - Playa del Carmen',
+    description: 'Papelería y Mercería El Gordo',
     image: '/img/logocircle.png',
     url: 'https://xplaya.com',
     type: 'website',
@@ -39,7 +39,7 @@ export class MetaService {
     nombre: string;
     precio: number;
     categoria: string;
-    fotos?: string[];
+    fotoPrincipalUrl: string;
     id: number;
     stock: number;
   }): void {
@@ -61,7 +61,7 @@ export class MetaService {
       "url": `${this.defaultConfig.url}/productos/${producto.id}`,
       "name": producto.nombre,
       "description": `$${producto.precio.toFixed(2)} | ${producto.categoria}`,
-      "image": producto.fotos && producto.fotos.length > 0 ? producto.fotos[0] : '',
+      "image": producto.fotoPrincipalUrl,
       "offers": {
         "@type": "Offer",
         "price": producto.precio.toFixed(2),
@@ -176,7 +176,7 @@ export class MetaService {
     nombre: string;
     precio: number;
     categoria: string;
-    fotos?: string[];
+    fotoPrincipalUrl: string;
     id: number;
     stock: number;
   }): void {
@@ -185,9 +185,7 @@ export class MetaService {
     const config: MetaTagsConfig = {
       title: producto.nombre,
       description: `$${producto.precio.toFixed(2)} | ${producto.categoria}`,
-      image: producto.fotos && producto.fotos.length > 0 
-        ? producto.fotos[0] 
-        : '/img/logocircle.png',
+      image:  producto.fotoPrincipalUrl,
       url: productUrl,
       type: 'product'
     };

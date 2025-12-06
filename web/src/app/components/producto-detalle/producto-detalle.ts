@@ -38,22 +38,22 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.producto = data;
 
-        // Actualizar meta tags con la información del producto
-        this.metaService.updateProductTags({
-          nombre: data.nombre,
-          precio: data.precioVenta,
-          categoria: data.categoria,
-          fotos: data.fotos,
-          id: data.nid,
-          stock: data.stock
-        });
-        
         // Si no hay fotos, usar placeholder inmediatamente
         if (!data.fotos || data.fotos.length === 0) {
           this.fotoPrincipal = this.obtenerUrlFotoPlaceholder();
         } else {
           this.fotoPrincipal = data.fotos[0];
         }
+
+        // Actualizar meta tags con la información del producto
+        this.metaService.updateProductTags({
+          nombre: data.nombre,
+          precio: data.precioVenta,
+          categoria: data.categoria,
+          fotoPrincipalUrl: this.fotoPrincipal,
+          id: data.nid,
+          stock: data.stock
+        });
         
         this.cargando = false;
       },
