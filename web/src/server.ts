@@ -12,6 +12,34 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
+
+/**
+ * Proxy XML files desde papeleria
+ */
+app.get('/sitemap.xml', async (req, res) => {
+  try {
+    const response = await fetch('http://papeleria-service.papeleria.svc.cluster.local:80/sitemap.xml');
+    const xml = await response.text();
+    res.setHeader('Content-Type', 'application/xml');
+    res.send(xml);
+  } catch (error) {
+    console.error('Error fetching sitemap:', error);
+    res.status(500).send('Error loading sitemap');
+  }
+});
+
+app.get('/rss.xml', async (req, res) => {
+  try {
+    const response = await fetch('http://papeleria-service.papeleria.svc.cluster.local:80/rss.xml');
+    const xml = await response.text();
+    res.setHeader('Content-Type', 'application/xml');
+    res.send(xml);
+  } catch (error) {
+    console.error('Error fetching RSS:', error);
+    res.status(500).send('Error loading RSS');
+  }
+});
+
 /**
  * Example Express Rest API endpoints can be defined here.
  * Uncomment and define endpoints as necessary.
