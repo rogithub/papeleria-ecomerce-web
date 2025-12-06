@@ -41,6 +41,7 @@ export class MetaService {
     categoria: string;
     fotos?: string[];
     id: number;
+    stock: number;
   }): void {
     const head = this.document.getElementsByTagName('head')[0];
     
@@ -65,7 +66,13 @@ export class MetaService {
         "@type": "Offer",
         "price": producto.precio.toFixed(2),
         "priceCurrency": "MXN",
-        "availability": "https://schema.org/InStock"
+        "availability": producto.stock > 0 
+        ? "https://schema.org/InStock" 
+        : "https://schema.org/OutOfStock",
+        "inventoryLevel": {
+          "@type": "QuantitativeValue",
+          "value": producto.stock
+        }
       }
     };
     script.text = JSON.stringify(schema);
@@ -171,6 +178,7 @@ export class MetaService {
     categoria: string;
     fotos?: string[];
     id: number;
+    stock: number;
   }): void {
     const productUrl = `${this.defaultConfig.url}/productos/${producto.id}`;
     

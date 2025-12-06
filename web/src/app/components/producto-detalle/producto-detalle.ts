@@ -44,7 +44,8 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
           precio: data.precioVenta,
           categoria: data.categoria,
           fotos: data.fotos,
-          id: data.nid
+          id: data.nid,
+          stock: data.stock
         });
         
         // Si no hay fotos, usar placeholder inmediatamente
