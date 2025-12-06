@@ -132,6 +132,12 @@ export class ProductoListaComponent implements OnInit {
   agregarAlCarrito(producto: Producto): void {
     this.cartService.agregarProducto(producto);
     // Redireccionar al carrito
-    this.router.navigate(['/carrito']);
+    const estado = this.productoService.obtenerEstado();
+    this.router.navigate(['/carrito'], {
+      queryParams: {
+        pagina: estado.pagina,
+        busqueda: estado.busqueda || null
+      }
+    });
   }
 }

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { CartItem } from '../../models/cartItem.model';
+import { ProductoService } from '../../services/producto.service';
+import { ActivatedRoute, Router } from '@angular/router';
  
 @Component({
   selector: 'app-cart-view',
@@ -13,6 +15,9 @@ import { CartItem } from '../../models/cartItem.model';
 })
 export class CartView implements OnInit {
   private cartService = inject(CartService);
+  private productoService = inject(ProductoService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   cartItems: CartItem[] = [];
   totalPrice = 0;
@@ -79,5 +84,15 @@ export class CartView implements OnInit {
 
   obtenerUrlFoto(foto: string): string {
     return `https://cntnt.xplaya.com/papeleria-fotos-productos/${foto}`;
+  }
+
+  volverALista(): void {
+    const estado = this.productoService.obtenerEstado();
+    this.router.navigate(['/productos'], {
+      queryParams: {
+        pagina: estado.pagina,
+        busqueda: estado.busqueda || null
+      }
+    });
   }
 }

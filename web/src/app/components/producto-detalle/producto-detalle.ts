@@ -132,7 +132,13 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
 
     this.cartService.agregarProducto(p);
     // Redireccionar al carrito
-    this.router.navigate(['/carrito']);
+    const estado = this.productoService.obtenerEstado();
+    this.router.navigate(['/carrito'], {
+      queryParams: {
+        pagina: estado.pagina,
+        busqueda: estado.busqueda || null
+      }
+    });
   }
 
   obtenerUrlFoto(foto: string): string {
