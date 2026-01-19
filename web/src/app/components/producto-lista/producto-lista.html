@@ -1,229 +1,227 @@
-  <section class="py-5 text-center container">
-    <div class="row py-lg-5">
-        <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">Papelería, mercería y copias</h1>
-        <p class="lead text-body-secondary">
-            Contamos con <strong><i class="bi bi-wifi"></i> WIFI gratis</strong> para que nos envíes tus documentos a imprimir. Copias e impresiones <strong>$1 peso</strong> blanco y negro.  
-        </p>
+<section class="py-5 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Papelería, mercería y copias</h1>
+      <p class="lead text-body-secondary">
+        Contamos con <strong><i class="bi bi-wifi"></i> WIFI gratis</strong> para que nos envíes tus
+        documentos a imprimir. Copias e impresiones <strong>$1 peso</strong> blanco y negro.
+      </p>
 
-        <div class="alert alert-success" role="alert">
-          <h4 class="alert-heading">¡Nos fuimos de vacaciones!</h4>
-          <p>Llegó el momento del año de descansar y estar en familia.</p>
-          <hr>
-          <p class="mb-0">
-            Regresamos el <strong>19 de Enero del 2026</strong> para seguir atendiéndote, <strong>¡Felices fiestas!</strong>
-          </p>
-        </div>
-        <p>
-            <a href="https://wa.me/524522018336"                        
-                    target="_blank" class="btn btn-whatsapp me-2"><i class="bi bi-whatsapp"></i> 452-201-8336</a>
-            <a href="https://www.tiktok.com/@papeleria.xplaya.com"
-                    target="_blank" class="btn btn-tiktok me-2"><i class="bi bi-tiktok"></i> Síguenos</a>
-            <a href="https://maps.app.goo.gl/MAboYSrPtfU148ca7" class="btn btn-location" target="_blank">
-                <i class="bi bi-geo-alt"></i> Cómo llegar
-            </a>
-        </p>
-        </div>
+      <p>
+        <a href="https://wa.me/524522018336" target="_blank" class="btn btn-whatsapp me-2"
+          ><i class="bi bi-whatsapp"></i> 452-201-8336</a
+        >
+        <a
+          href="https://www.tiktok.com/@papeleria.xplaya.com"
+          target="_blank"
+          class="btn btn-tiktok me-2"
+          ><i class="bi bi-tiktok"></i> Síguenos</a
+        >
+        <a
+          href="https://maps.app.goo.gl/MAboYSrPtfU148ca7"
+          class="btn btn-location"
+          target="_blank"
+        >
+          <i class="bi bi-geo-alt"></i> Cómo llegar
+        </a>
+      </p>
     </div>
-  </section>
+  </div>
+</section>
 <!-- Loading spinner -->
 @if (cargando) {
-  <div class="text-center py-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Cargando...</span>
-    </div>
-    <p class="mt-3">Cargando productos...</p>
+<div class="text-center py-5">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Cargando...</span>
   </div>
+  <p class="mt-3">Cargando productos...</p>
+</div>
 }
 
 <!-- Error message -->
 @if (error) {
-  <div class="alert alert-danger" role="alert">
-    <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
-  </div>
+<div class="alert alert-danger" role="alert">
+  <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
+</div>
 }
 
 <!-- Barra de búsqueda -->
 <div class="row mb-4">
   <div class="col-md-6">
     <div class="input-group">
-      <input 
-        type="text" 
-        class="form-control" 
+      <input
+        type="text"
+        class="form-control"
         maxlength="150"
-        placeholder="Buscar productos por nombre, categoría..." 
+        placeholder="Buscar productos por nombre, categoría..."
         #searchInput
         (keyup.enter)="buscar(searchInput.value)"
-      >
-      <button 
-        class="btn btn-outline-primary" 
-        type="button" 
-        (click)="buscar(searchInput.value)"
-      >
+      />
+      <button class="btn btn-outline-primary" type="button" (click)="buscar(searchInput.value)">
         <i class="bi bi-search"></i> Buscar
       </button>
       @if (terminoBusqueda) {
-        <button 
-          class="btn btn-outline-secondary" 
-          type="button" 
-          (click)="limpiarBusqueda(searchInput)"
-        >
-          <i class="bi bi-x"></i>
-        </button>
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        (click)="limpiarBusqueda(searchInput)"
+      >
+        <i class="bi bi-x"></i>
+      </button>
       }
     </div>
     @if (terminoBusqueda) {
-      <div class="mt-2">
-        <small class="text-muted">
-          Resultados para: "{{ terminoBusqueda }}"
-          <a href="javascript:void(0)" (click)="limpiarBusqueda(searchInput)" class="ms-2">
-            <i class="bi bi-x-circle"></i> Limpiar
-          </a>
-        </small>
-      </div>
+    <div class="mt-2">
+      <small class="text-muted">
+        Resultados para: "{{ terminoBusqueda }}"
+        <a href="javascript:void(0)" (click)="limpiarBusqueda(searchInput)" class="ms-2">
+          <i class="bi bi-x-circle"></i> Limpiar
+        </a>
+      </small>
+    </div>
     }
   </div>
 </div>
 
 <!-- Products grid -->
 @if (!cargando && !error) {
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    @for (producto of productos; track producto.id) {
-      <div class="col">
-        <div class="card shadow-sm h-100 cursor-pointer"
-              (click)="verDetalle(producto.nid)">
-          
-          <!-- Imagen o placeholder -->
-          <div class="card-img-top-wrapper" style="height: 225px; overflow: hidden; background-color: #f8f9fa;">
-            @if (producto.foto) {
-              <img 
-                [src]="obtenerUrlFoto(producto.foto)" 
-                [alt]="producto.nombre"
-                class="card-img-top w-100 h-100"
-                style="object-fit: cover;"
-              >
-            } @else {
-              <div class="d-flex align-items-center justify-content-center h-100">
-                <i class="bi bi-image" style="font-size: 4rem; color: #dee2e6;"></i>
-              </div>
-            }
-          </div>
-
-          <div class="card-body d-flex flex-column">
-            <!-- Categoría -->
-            <small class="text-muted text-uppercase" style="font-size: 0.75rem;">
-              {{ producto.categoria }}
-            </small>
-            
-            <!-- Nombre del producto -->
-            <h5 class="card-title mt-1">{{ producto.nombre }}</h5>
-            
-            <!-- Precio -->
-            <p class="card-text mb-2">
-              <strong class="text-success" style="font-size: 1.5rem;">
-                ${{ formatearPrecio(producto.precioVenta) }}
-              </strong>
-              <small class="text-muted"> / {{ producto.unidadMedida }}</small>
-            </p>
-
-            <!-- Stock -->
-            <p class="card-text mb-3">
-              <span 
-                class="badge" 
-                [ngClass]="producto.stock > 10 ? 'bg-success' : producto.stock > 0 ? 'bg-warning text-dark' : 'bg-danger'"
-              >
-                <i class="bi bi-box-seam"></i> 
-                {{ producto.stock }} en stock
-              </span>
-            </p>
-
-            <!-- Acciones del producto -->
-            <div class="mt-auto d-flex flex-column gap-2">
-              <button 
-                class="btn btn-outline-primary btn-sm" 
-                (click)="verDetalle(producto.nid); $event.stopPropagation()"
-              >
-                <i class="bi bi-eye"></i> Ver Detalle
-              </button>
-              <button 
-                class="btn btn-success btn-sm" 
-                (click)="agregarAlCarrito(producto); $event.stopPropagation()"
-              >
-                <i class="bi bi-cart-plus"></i> Añadir al Carrito
-              </button>
-              @if (producto.video) {
-                <a 
-                  [href]="producto.video" 
-                  target="_blank"
-                  class="btn btn-outline-dark btn-sm"
-                  title="Ver video en TikTok"
-                  (click)="$event.stopPropagation()"
-                >
-                  <i class="bi bi-tiktok"></i> Ver Video
-                </a>
-              }
-            </div>
-          </div>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+  @for (producto of productos; track producto.id) {
+  <div class="col">
+    <div class="card shadow-sm h-100 cursor-pointer" (click)="verDetalle(producto.nid)">
+      <!-- Imagen o placeholder -->
+      <div
+        class="card-img-top-wrapper"
+        style="height: 225px; overflow: hidden; background-color: #f8f9fa"
+      >
+        @if (producto.foto) {
+        <img
+          [src]="obtenerUrlFoto(producto.foto)"
+          [alt]="producto.nombre"
+          class="card-img-top w-100 h-100"
+          style="object-fit: cover"
+        />
+        } @else {
+        <div class="d-flex align-items-center justify-content-center h-100">
+          <i class="bi bi-image" style="font-size: 4rem; color: #dee2e6"></i>
         </div>
-      </div>
-    } @empty {
-      <!-- Empty state cuando no hay productos -->
-      <div class="col-12 text-center py-5">
-        <i class="bi bi-inbox" style="font-size: 4rem; color: #dee2e6;"></i>
-        <p class="mt-3 text-muted">No hay productos disponibles</p>
-      </div>
-    }
-  </div>
-
-  <!-- Controles de paginación -->
-<!-- Controles de paginación - Versión móvil -->
-@if (totalPaginas > 1) {
-    <div class="pagination-mobile">
-      <!-- Información compacta -->
-      <div class="text-center text-muted small mb-2">
-        Página {{ paginaActual }} de {{ totalPaginas }}
+        }
       </div>
 
-      <!-- Controles principales -->
-      <div class="d-flex justify-content-between align-items-center">
-        <!-- Botón anterior -->
-        <button 
-          class="btn btn-outline-primary btn-sm"
-          [disabled]="paginaActual === 1"
-          (click)="cambiarPagina(paginaActual - 1)"
-        >
-          <i class="bi bi-chevron-left"></i> Anterior
-        </button>
+      <div class="card-body d-flex flex-column">
+        <!-- Categoría -->
+        <small class="text-muted text-uppercase" style="font-size: 0.75rem">
+          {{ producto.categoria }}
+        </small>
 
-        <!-- Selector de página compacto -->
-        <div class="d-flex align-items-center gap-2">
-          <select 
-            class="form-select form-select-sm" 
-            style="width: 80px;"
-            [value]="paginaActual"
-            (change)="cambiarPagina($any($event.target).value)"
+        <!-- Nombre del producto -->
+        <h5 class="card-title mt-1">{{ producto.nombre }}</h5>
+
+        <!-- Precio -->
+        <p class="card-text mb-2">
+          <strong class="text-success" style="font-size: 1.5rem">
+            ${{ formatearPrecio(producto.precioVenta) }}
+          </strong>
+          <small class="text-muted"> / {{ producto.unidadMedida }}</small>
+        </p>
+
+        <!-- Stock -->
+        <p class="card-text mb-3">
+          <span
+            class="badge"
+            [ngClass]="producto.stock > 10 ? 'bg-success' : producto.stock > 0 ? 'bg-warning text-dark' : 'bg-danger'"
           >
-            @for (pagina of generarArrayPaginas(); track pagina) {
-              <option [value]="pagina" [selected]="paginaActual === pagina">{{ pagina }}</option>
-            }
-          </select>
-          <span class="text-muted small">/ {{ totalPaginas }}</span>
+            <i class="bi bi-box-seam"></i>
+            {{ producto.stock }} en stock
+          </span>
+        </p>
+
+        <!-- Acciones del producto -->
+        <div class="mt-auto d-flex flex-column gap-2">
+          <button
+            class="btn btn-outline-primary btn-sm"
+            (click)="verDetalle(producto.nid); $event.stopPropagation()"
+          >
+            <i class="bi bi-eye"></i> Ver Detalle
+          </button>
+          <button
+            class="btn btn-success btn-sm"
+            (click)="agregarAlCarrito(producto); $event.stopPropagation()"
+          >
+            <i class="bi bi-cart-plus"></i> Añadir al Carrito
+          </button>
+          @if (producto.video) {
+          <a
+            [href]="producto.video"
+            target="_blank"
+            class="btn btn-outline-dark btn-sm"
+            title="Ver video en TikTok"
+            (click)="$event.stopPropagation()"
+          >
+            <i class="bi bi-tiktok"></i> Ver Video
+          </a>
+          }
         </div>
-
-        <!-- Botón siguiente -->
-        <button 
-          class="btn btn-outline-primary btn-sm"
-          [disabled]="paginaActual === totalPaginas"
-          (click)="cambiarPagina(paginaActual + 1)"
-        >
-          Siguiente <i class="bi bi-chevron-right"></i>
-        </button>
-      </div>
-
-      <!-- Información de productos (opcional) -->
-      <div class="text-center text-muted small mt-2">
-        {{ productos.length }} de {{ totalProductos }} productos
       </div>
     </div>
+  </div>
+  } @empty {
+  <!-- Empty state cuando no hay productos -->
+  <div class="col-12 text-center py-5">
+    <i class="bi bi-inbox" style="font-size: 4rem; color: #dee2e6"></i>
+    <p class="mt-3 text-muted">No hay productos disponibles</p>
+  </div>
   }
-}
+</div>
+
+<!-- Controles de paginación -->
+<!-- Controles de paginación - Versión móvil -->
+@if (totalPaginas > 1) {
+<div class="pagination-mobile">
+  <!-- Información compacta -->
+  <div class="text-center text-muted small mb-2">
+    Página {{ paginaActual }} de {{ totalPaginas }}
+  </div>
+
+  <!-- Controles principales -->
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- Botón anterior -->
+    <button
+      class="btn btn-outline-primary btn-sm"
+      [disabled]="paginaActual === 1"
+      (click)="cambiarPagina(paginaActual - 1)"
+    >
+      <i class="bi bi-chevron-left"></i> Anterior
+    </button>
+
+    <!-- Selector de página compacto -->
+    <div class="d-flex align-items-center gap-2">
+      <select
+        class="form-select form-select-sm"
+        style="width: 80px"
+        [value]="paginaActual"
+        (change)="cambiarPagina($any($event.target).value)"
+      >
+        @for (pagina of generarArrayPaginas(); track pagina) {
+        <option [value]="pagina" [selected]="paginaActual === pagina">{{ pagina }}</option>
+        }
+      </select>
+      <span class="text-muted small">/ {{ totalPaginas }}</span>
+    </div>
+
+    <!-- Botón siguiente -->
+    <button
+      class="btn btn-outline-primary btn-sm"
+      [disabled]="paginaActual === totalPaginas"
+      (click)="cambiarPagina(paginaActual + 1)"
+    >
+      Siguiente <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+
+  <!-- Información de productos (opcional) -->
+  <div class="text-center text-muted small mt-2">
+    {{ productos.length }} de {{ totalProductos }} productos
+  </div>
+</div>
+} }
