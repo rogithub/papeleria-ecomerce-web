@@ -1,9 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../models/producto.model';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CartService } from '../../services/cart.service';
+import { MetaService } from '../../services/meta.service';
 
 @Component({
   selector: 'app-producto-lista',
@@ -11,11 +12,12 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './producto-lista.html',
   styleUrl: './producto-lista.scss'
 })
-export class ProductoListaComponent implements OnInit {
+export class ProductoListaComponent implements OnInit, OnDestroy {
   private productoService = inject(ProductoService);
-  
+  private metaService = inject(MetaService);
+
   constructor(
-    private router: Router, 
+    private router: Router,
     private route: ActivatedRoute,
     private cartService: CartService
   ) {}
@@ -68,6 +70,7 @@ export class ProductoListaComponent implements OnInit {
         this.totalPaginas = data.paginacion.totalPaginas;
         this.totalProductos = data.paginacion.totalRows;
         this.cargando = false;
+        this.actualizarMetaTags();
       },
       error: (err) => {
         this.error = 'Error al cargar los productos';
@@ -127,6 +130,28 @@ export class ProductoListaComponent implements OnInit {
 
   verDetalle(productoId: number): void {
     this.router.navigate(['/productos', productoId]);
+  }
+
+  private actualizarMetaTags(): void {
+    let title = 'Productos - Papelería y Mercería El Gordo';
+    let description = `${this.totalProductos} productos disponibles en Papelería y Mercería El Gordo`;
+    let url = 'https://xplaya.com/productos';
+
+    if (this.terminoBusqueda) {
+      title = `${this.terminoBusqueda} - Papelería El Gordo`;
+      description = `${this.totalProductos} resultados para "${this.terminoBusqueda}" en Papelería y Mercería El Gordo`;
+      url = `https://xplaya.com/productos?busqueda=${encodeURIComponent(this.terminoBusqueda)}`;
+    } else if (this.paginaActual > 1) {
+      title = `Productos - Página ${this.paginaActual} - Papelería El Gordo`;
+      url = `https://xplaya.com/productos?pagina=${this.paginaActual}`;
+    }
+
+    this.metaService.updateTags({ title, description, url });
+    this.metaService.updateCanonical(url);
+  }
+
+  ngOnDestroy(): void {
+    this.metaService.resetTags();
   }
 
   agregarAlCarrito(producto: Producto): void {
