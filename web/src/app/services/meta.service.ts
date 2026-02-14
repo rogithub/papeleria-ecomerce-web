@@ -55,6 +55,9 @@ export class MetaService {
     script.id = 'product-schema';
     script.type = 'application/ld+json';
     
+    const currentYear = new Date().getFullYear();
+    const priceValidUntil = `${currentYear}-12-31`;
+
     const schema = {
       "@context": "https://schema.org",
       "@type": "Product",
@@ -64,10 +67,12 @@ export class MetaService {
       "image": producto.fotoPrincipalUrl,
       "offers": {
         "@type": "Offer",
+        "url": `${this.defaultConfig.url}/productos/${producto.id}`,
         "price": producto.precio.toFixed(2),
         "priceCurrency": "MXN",
-        "availability": producto.stock > 0 
-        ? "https://schema.org/InStock" 
+        "priceValidUntil": priceValidUntil,
+        "availability": producto.stock > 0
+        ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
         "inventoryLevel": {
           "@type": "QuantitativeValue",
