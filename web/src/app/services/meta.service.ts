@@ -85,6 +85,53 @@ export class MetaService {
   }
 
   /**
+   * Agrega o actualiza el schema BreadcrumbList para navegación
+   */
+  updateBreadcrumbSchema(producto: {
+    nombre: string;
+    categoria: string;
+    id: number;
+  }): void {
+    const head = this.document.getElementsByTagName('head')[0];
+
+    const existingScript = this.document.getElementById('breadcrumb-schema');
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    const script = this.document.createElement('script');
+    script.id = 'breadcrumb-schema';
+    script.type = 'application/ld+json';
+
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": this.defaultConfig.url
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": producto.categoria,
+          "item": `${this.defaultConfig.url}/productos?busqueda=${encodeURIComponent(producto.categoria)}`
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": producto.nombre
+        }
+      ]
+    };
+
+    script.text = JSON.stringify(schema);
+    head.appendChild(script);
+  }
+
+  /**
    * Actualiza el canonical link
    */
   updateCanonical(url: string): void {
@@ -139,6 +186,12 @@ export class MetaService {
    */
   resetTags(): void {
     this.updateTags(this.defaultConfig);
+
+    const productSchema = this.document.getElementById('product-schema');
+    if (productSchema) productSchema.remove();
+
+    const breadcrumbSchema = this.document.getElementById('breadcrumb-schema');
+    if (breadcrumbSchema) breadcrumbSchema.remove();
   }
 
   /**
@@ -198,5 +251,6 @@ export class MetaService {
     this.updateTags(config);
     this.updateCanonical(productUrl);
     this.updateProductSchema(producto);
+    this.updateBreadcrumbSchema(producto);
   }
 }
