@@ -65,6 +65,11 @@ export class MetaService {
       "name": producto.nombre,
       "description": `$${producto.precio.toFixed(2)} | ${producto.categoria}`,
       "image": producto.fotoPrincipalUrl,
+      "sku": `nid${producto.id}`,
+      "brand": {
+        "@type": "Brand",
+        "name": "Papelería y Mercería El Gordo"
+      },
       "offers": {
         "@type": "Offer",
         "url": `${this.defaultConfig.url}/productos/${producto.id}`,
