@@ -44,6 +44,18 @@
             </a>
             
             <div class="d-flex align-items-center gap-2">
+                @if (usuario$ | async; as usuario) {
+                  <span class="text-white small d-flex align-items-center gap-1">
+                    <i class="bi bi-person-check-fill text-success"></i>
+                    <span class="d-none d-sm-inline">{{ usuario.nombre }}</span>
+                  </span>
+                  <button
+                    class="btn btn-outline-light btn-sm"
+                    (click)="olvidarme()"
+                    title="Olvidar mis datos">
+                    <i class="bi bi-box-arrow-right"></i>
+                  </button>
+                }
                 <cart-status></cart-status>
                 <button
                 class="navbar-toggler"

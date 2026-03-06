@@ -133,14 +133,70 @@
             </button>
           </div>
           <div class="col-12 col-md-6 text-md-end">
-            <h4 class="mb-3">Total ({{ totalItems }} artículos): 
+            <h4 class="mb-3">Total ({{ totalItems }} artículos):
               <span class="text-success fw-bold d-block d-md-inline">${{ formatearPrecio(totalPrice) }}</span>
             </h4>
-            <button class="btn btn-success w-100 w-md-auto" (click)="checkout()">
-              <i class="bi bi-whatsapp"></i> Finalizar Pedido por WhatsApp
-            </button>
+            @if (!mostrarFormulario) {
+              <button class="btn btn-success w-100 w-md-auto" (click)="checkout()">
+                <i class="bi bi-whatsapp"></i> Finalizar Pedido por WhatsApp
+              </button>
+            }
           </div>
         </div>
+
+        @if (mostrarFormulario) {
+          <div class="card mt-4 border-success">
+            <div class="card-header bg-success text-white">
+              <i class="bi bi-person-lines-fill me-2"></i>Datos de contacto
+            </div>
+            <div class="card-body">
+              @if (errorMsg) {
+                <div class="alert alert-danger">{{ errorMsg }}</div>
+              }
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Nombre</label>
+                <input type="text" class="form-control" [(ngModel)]="nombre"
+                       placeholder="Tu nombre completo" maxlength="100">
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Teléfono (10 dígitos)</label>
+                <input type="tel" class="form-control"
+                       [(ngModel)]="telefono"
+                       (input)="telefono = $any($event.target).value.replace(/\D/g,'')"
+                       placeholder="10 dígitos" maxlength="10"
+                       [class.is-invalid]="telefono.length > 0 && !telefonoValido"
+                       [class.is-valid]="telefonoValido">
+                @if (telefono.length > 0 && !telefonoValido) {
+                  <div class="invalid-feedback">Debe tener exactamente 10 dígitos.</div>
+                }
+              </div>
+              <div class="mb-4">
+                <label class="form-label fw-semibold">Confirmar teléfono</label>
+                <input type="tel" class="form-control"
+                       [(ngModel)]="confirmarTelefono"
+                       (input)="confirmarTelefono = $any($event.target).value.replace(/\D/g,'')"
+                       placeholder="Repite tu teléfono" maxlength="10"
+                       [class.is-invalid]="confirmarTelefono.length > 0 && !telefonosCoinciden"
+                       [class.is-valid]="confirmarTelefono.length === 10 && telefonosCoinciden">
+                @if (confirmarTelefono.length > 0 && !telefonosCoinciden) {
+                  <div class="invalid-feedback">Los teléfonos no coinciden.</div>
+                }
+              </div>
+              <div class="d-flex gap-2 justify-content-end">
+                <button class="btn btn-outline-secondary" (click)="cancelarFormulario()" [disabled]="enviando">
+                  Cancelar
+                </button>
+                <button class="btn btn-success" (click)="enviarPedido()" [disabled]="enviando">
+                  @if (enviando) {
+                    <span class="spinner-border spinner-border-sm me-1"></span>Enviando...
+                  } @else {
+                    <i class="bi bi-whatsapp me-1"></i>Confirmar y enviar por WhatsApp
+                  }
+                </button>
+              </div>
+            </div>
+          </div>
+        }
 
       </div>
     </div>

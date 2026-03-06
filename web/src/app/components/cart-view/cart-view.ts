@@ -1,28 +1,42 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { CartService } from '../../services/cart.service';
 import { CartItem } from '../../models/cartItem.model';
 import { ProductoService } from '../../services/producto.service';
+import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
- 
+import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'app-cart-view',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './cart-view.html',
   styleUrls: ['./cart-view.scss']
 })
 export class CartView implements OnInit {
   private cartService = inject(CartService);
   private productoService = inject(ProductoService);
+  private userService = inject(UserService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private http = inject(HttpClient);
 
   cartItems: CartItem[] = [];
   totalPrice = 0;
   totalItems = 0;
-  
+
+  // Formulario de datos de contacto
+  mostrarFormulario = false;
+  nombre = '';
+  telefono = '';
+  confirmarTelefono = '';
+  enviando = false;
+  errorMsg = '';
+
   ngOnInit(): void {
     this.cartService.items$.subscribe(items => {
       this.cartItems = items;
@@ -33,7 +47,6 @@ export class CartView implements OnInit {
   recalculateTotals(): void {
     this.totalPrice = this.cartItems.reduce((total, item) => total + (item.precioVenta * item.cantidad), 0);
     this.totalItems = this.cartItems.reduce((total, item) => total + item.cantidad, 0);
-
   }
 
   updateQuantity(item: CartItem, quantityStr: string): void {
@@ -56,26 +69,81 @@ export class CartView implements OnInit {
   }
 
   checkout(): void {
-    // Generamos el texto del pedido
-    let mensaje = '¡Hola! Quisiera hacer el siguiente pedido:\n\n';
-    this.cartItems.forEach(item => {
-      mensaje += `- ${item.nombre} (ID: ${item.nid}) - Cantidad: ${item.cantidad}\n`;
-    });
-    mensaje += `\n*Total de artículos: ${this.totalItems}*`;
-    mensaje += `\n*Precio total: $${this.totalPrice.toFixed(2)}*`;
+    const guardado = this.userService.usuario;
+    if (guardado) {
+      this.nombre = guardado.nombre;
+      this.telefono = guardado.telefono;
+      this.confirmarTelefono = guardado.telefono;
+    }
+    this.mostrarFormulario = true;
+    this.errorMsg = '';
+  }
 
-    // Codificamos el mensaje para la URL
-    const mensajeCodificado = encodeURIComponent(mensaje);
-    const numeroWhatsApp = '524522018336'; // <- Tu número de WhatsApp
+  cancelarFormulario(): void {
+    this.mostrarFormulario = false;
+    this.nombre = '';
+    this.telefono = '';
+    this.confirmarTelefono = '';
+    this.errorMsg = '';
+  }
 
-    // Creamos la URL y redirigimos
-    const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensajeCodificado}`;
+  get telefonoValido(): boolean {
+    return /^\d{10}$/.test(this.telefono);
+  }
 
-    // Abrimos en una nueva pestaña
+  get telefonosCoinciden(): boolean {
+    return this.telefono === this.confirmarTelefono;
+  }
+
+  async enviarPedido(): Promise<void> {
+    this.errorMsg = '';
+
+    if (!this.nombre.trim()) {
+      this.errorMsg = 'El nombre es requerido.';
+      return;
+    }
+    if (!this.telefonoValido) {
+      this.errorMsg = 'El teléfono debe tener exactamente 10 dígitos numéricos.';
+      return;
+    }
+    if (!this.telefonosCoinciden) {
+      this.errorMsg = 'Los números de teléfono no coinciden.';
+      return;
+    }
+
+    this.enviando = true;
+    try {
+      const body = {
+        nombre: this.nombre.trim(),
+        telefono: this.telefono,
+        items: this.cartItems.map(item => ({
+          productoId: item.id,
+          cantidad: item.cantidad
+        }))
+      };
+
+      const res: any = await this.http.post(`${environment.apiUrl}/api/pedidos`, body).toPromise();
+      this.userService.guardar(this.nombre.trim(), this.telefono);
+      this.abrirWhatsApp(res.pedidoId);
+    } catch (err) {
+      this.errorMsg = 'Ocurrió un error al registrar tu pedido. Intenta de nuevo.';
+    } finally {
+      this.enviando = false;
+    }
+  }
+
+  private abrirWhatsApp(pedidoId: number): void {
+    let mensaje = `¡Hola! Acabo de hacer un pedido en línea.\n\n`;
+    mensaje += `*Pedido #${pedidoId}*\n`;
+    mensaje += `*Total de artículos: ${this.totalItems}*\n`;
+    mensaje += `*Precio total: $${this.totalPrice.toFixed(2)}*\n\n`;
+    mensaje += `*Nombre: ${this.nombre.trim()}*`;
+    mensaje += `\n*Tel: ${this.telefono}*`;
+
+    const urlWhatsApp = `https://wa.me/524522018336?text=${encodeURIComponent(mensaje)}`;
     window.open(urlWhatsApp, '_blank');
-
-    // Opcional: limpiar el carrito después de enviar el pedido
-    // this.cartService.limpiarCarrito();
+    this.cartService.limpiarCarrito();
+    this.cancelarFormulario();
   }
 
   formatearPrecio(precio: number): string {
