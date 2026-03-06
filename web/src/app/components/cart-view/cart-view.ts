@@ -124,7 +124,7 @@ export class CartView implements OnInit {
 
       const res: any = await this.http.post(`${environment.apiUrl}/pedidos`, body).toPromise();
       this.userService.guardar(this.nombre.trim(), this.telefono);
-      this.abrirWhatsApp(res.pedidoId);
+      this.abrirWhatsApp(res.pedidoId, res.pedidoUid);
     } catch (err) {
       this.errorMsg = 'Ocurrió un error al registrar tu pedido. Intenta de nuevo.';
     } finally {
@@ -132,13 +132,14 @@ export class CartView implements OnInit {
     }
   }
 
-  private abrirWhatsApp(pedidoId: number): void {
+  private abrirWhatsApp(pedidoId: number, pedidoUid: string): void {
     let mensaje = `¡Hola! Acabo de hacer un pedido en línea.\n\n`;
     mensaje += `*Pedido #${pedidoId}*\n`;
     mensaje += `*Total de artículos: ${this.totalItems}*\n`;
     mensaje += `*Precio total: $${this.totalPrice.toFixed(2)}*\n\n`;
-    mensaje += `*Nombre: ${this.nombre.trim()}*`;
-    mensaje += `\n*Tel: ${this.telefono}*`;
+    mensaje += `*Nombre: ${this.nombre.trim()}*\n`;
+    mensaje += `*Tel: ${this.telefono}*\n\n`;
+    mensaje += `Ver detalle: https://papeleria.xplaya.com/Cotizacion/${pedidoUid}`;
 
     const urlWhatsApp = `https://wa.me/524522018336?text=${encodeURIComponent(mensaje)}`;
     window.open(urlWhatsApp, '_blank');
