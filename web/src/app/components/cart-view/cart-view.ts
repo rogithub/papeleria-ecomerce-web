@@ -122,7 +122,7 @@ export class CartView implements OnInit {
         }))
       };
 
-      const res: any = await this.http.post(`${environment.apiUrl}/api/pedidos`, body).toPromise();
+      const res: any = await this.http.post(`${environment.apiUrl}/pedidos`, body).toPromise();
       this.userService.guardar(this.nombre.trim(), this.telefono);
       this.abrirWhatsApp(res.pedidoId);
     } catch (err) {
