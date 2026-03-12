@@ -1,30 +1,34 @@
-<section class="py-5 text-center container">
-  <div class="row py-lg-5">
+<section class="hero-productos text-center container mb-2">
+  <div class="row">
     <div class="col-lg-6 col-md-8 mx-auto">
-      <h1 class="fw-light">Papelería, mercería y copias</h1>
-      <p class="lead text-body-secondary">
+
+      <img src="/img/circleai.jpg"
+           alt="Papelería y Mercería El Gordo"
+           width="100" height="100"
+           class="rounded-circle shadow mb-3"
+           style="object-fit:cover; border:3px solid #fff;" />
+
+      <h1 class="fw-bold mb-1" style="font-size:1.75rem; color:#4E342E;">
+        Papelería, mercería y copias
+      </h1>
+
+      <p class="lead mb-3" style="color:#6D4C41; font-size:1rem;">
         Contamos con <strong><i class="bi bi-wifi"></i> WIFI gratis</strong> para que nos envíes tus
         documentos a imprimir. Copias e impresiones <strong>$1 peso</strong> blanco y negro.
       </p>
 
-      <p>
-        <a href="https://wa.me/524522018336" target="_blank" class="btn btn-whatsapp me-2"
-          ><i class="bi bi-whatsapp"></i> 452-201-8336</a
-        >
-        <a
-          href="https://www.tiktok.com/@papeleria.xplaya.com"
-          target="_blank"
-          class="btn btn-tiktok me-2"
-          ><i class="bi bi-tiktok"></i> Síguenos</a
-        >
-        <a
-          href="https://maps.app.goo.gl/MAboYSrPtfU148ca7"
-          class="btn btn-location"
-          target="_blank"
-        >
+      <div class="d-flex justify-content-center flex-wrap gap-2">
+        <a href="https://wa.me/524522018336" target="_blank" class="btn btn-whatsapp">
+          <i class="bi bi-whatsapp"></i> 452-201-8336
+        </a>
+        <a href="https://www.tiktok.com/@papeleria.xplaya.com" target="_blank" class="btn btn-tiktok">
+          <i class="bi bi-tiktok"></i> Síguenos
+        </a>
+        <a href="https://maps.app.goo.gl/MAboYSrPtfU148ca7" class="btn btn-location" target="_blank">
           <i class="bi bi-geo-alt"></i> Cómo llegar
         </a>
-      </p>
+      </div>
+
     </div>
   </div>
 </section>
@@ -88,7 +92,7 @@
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
   @for (producto of productos; track producto.id) {
   <div class="col">
-    <div class="card shadow-sm h-100 cursor-pointer" (click)="verDetalle(producto.nid)">
+    <div class="card product-card h-100 cursor-pointer" (click)="verDetalle(producto.nid)">
       <!-- Imagen o placeholder -->
       <div
         class="card-img-top-wrapper"
@@ -119,7 +123,7 @@
 
         <!-- Precio -->
         <p class="card-text mb-2">
-          <strong class="text-success" style="font-size: 1.5rem">
+          <strong class="precio-producto">
             ${{ formatearPrecio(producto.precioVenta) }}
           </strong>
           <small class="text-muted"> / {{ producto.unidadMedida }}</small>

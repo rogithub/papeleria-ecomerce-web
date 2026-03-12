@@ -1,14 +1,176 @@
-/* You can add global styles to this file, and also import other style files */
-/*
-
-#4a4239
-#3e3933
-#5a4f45 
-*/
-.navbar-custom {
-  background-color: #4a4239;
+/* ── Paleta "Caja de crayolas" ────────────────────────────────────────
+   Compartida con papeleria.xplaya.com para navegación uniforme
+   ──────────────────────────────────────────────────────────────────── */
+:root {
+  --c-naranja:  #E85D04;
+  --c-naranja-d:#C94F02;
+  --c-azul:     #1E88E5;
+  --c-verde:    #43A047;
+  --c-magenta:  #D81B60;
+  --c-ambar:    #F9A825;
+  --c-texto:    #4E342E;
+  --c-fondo:    #FFFDF5;
 }
 
+/* ── Base ──────────────────────────────────────────────────────────── */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html { font-size: 16px; }
+}
+
+body {
+  background-color: var(--c-fondo);
+}
+
+/* ── Navbar ────────────────────────────────────────────────────────── */
+.navbar-custom {
+  background-color: var(--c-naranja);
+}
+
+/* Franja arcoíris debajo del navbar */
+.navbar-rainbow {
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--c-azul)    0%,
+    var(--c-verde)   25%,
+    var(--c-ambar)   50%,
+    var(--c-magenta) 75%,
+    var(--c-naranja) 100%
+  );
+}
+
+/* ── Botón primario (violet → naranja) ─────────────────────────────── */
+.btn-bd-primary {
+  --bd-violet-bg: var(--c-naranja);
+  --bd-violet-rgb: 232, 93, 4;
+  --bs-btn-font-weight: 600;
+  --bs-btn-color: var(--bs-white);
+  --bs-btn-bg: var(--c-naranja);
+  --bs-btn-border-color: var(--c-naranja);
+  --bs-btn-hover-color: var(--bs-white);
+  --bs-btn-hover-bg: var(--c-naranja-d);
+  --bs-btn-hover-border-color: var(--c-naranja-d);
+  --bs-btn-focus-shadow-rgb: 232, 93, 4;
+  --bs-btn-active-color: var(--bs-btn-hover-color);
+  --bs-btn-active-bg: #a84400;
+  --bs-btn-active-border-color: #a84400;
+}
+
+/* Overrides Bootstrap primary para esta app */
+.btn-primary,
+.btn-outline-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--c-naranja);
+  --bs-btn-border-color: var(--c-naranja);
+  --bs-btn-hover-bg: var(--c-naranja-d);
+  --bs-btn-hover-border-color: var(--c-naranja-d);
+  --bs-btn-active-bg: #a84400;
+  --bs-btn-active-border-color: #a84400;
+}
+.btn-outline-primary {
+  --bs-btn-color: var(--c-naranja);
+  --bs-btn-bg: transparent;
+  --bs-btn-hover-color: #fff;
+}
+
+/* ── Cards de producto ─────────────────────────────────────────────── */
+.product-card {
+  border: none;
+  border-top: 4px solid var(--c-ambar);
+  box-shadow: 0 2px 8px rgba(0,0,0,.07);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.13);
+}
+
+/* Precio en naranja en vez del verde Bootstrap */
+.precio-producto {
+  color: var(--c-naranja);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* ── Hero de la lista de productos ────────────────────────────────── */
+.hero-productos {
+  background: linear-gradient(135deg, #fff8e1 0%, #fce4ec 45%, #e3f2fd 100%);
+  border-radius: 1.25rem;
+  padding: 2.5rem 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Footer ────────────────────────────────────────────────────────── */
+footer {
+  border-top: 4px solid var(--c-naranja) !important;
+  background-color: #faf7f2 !important;
+}
+
+/* ── Botón WhatsApp ────────────────────────────────────────────────── */
+.btn-whatsapp {
+  background-color: #25D366 !important;
+  border-color: #25D366 !important;
+  color: white !important;
+}
+.btn-whatsapp:hover {
+  background-color: #128C7E !important;
+  border-color: #128C7E !important;
+  color: white !important;
+}
+.btn-whatsapp:active,
+.btn-whatsapp:focus,
+.btn-whatsapp:focus-visible {
+  background-color: #075E54 !important;
+  border-color: #075E54 !important;
+  color: white !important;
+  box-shadow: 0 0 0 0.25rem rgba(37, 211, 102, 0.5) !important;
+}
+
+/* ── Botón TikTok ──────────────────────────────────────────────────── */
+.btn-tiktok {
+  background-color: #000 !important;
+  border-color: #00f2ea !important;
+  border-width: 2px !important;
+  color: white !important;
+}
+.btn-tiktok:hover {
+  background-color: #00f2ea !important;
+  border-color: #00f2ea !important;
+  color: #000 !important;
+}
+.btn-tiktok:active,
+.btn-tiktok:focus,
+.btn-tiktok:focus-visible {
+  background-color: #ff0050 !important;
+  border-color: #ff0050 !important;
+  color: white !important;
+  box-shadow: 0 0 0 0.25rem rgba(0, 242, 234, 0.5) !important;
+}
+
+/* ── Botón Ubicación ───────────────────────────────────────────────── */
+.btn-location {
+  background-color: #EA4335 !important;
+  border-color: #EA4335 !important;
+  color: white !important;
+}
+.btn-location:hover {
+  background-color: #C5221F !important;
+  border-color: #C5221F !important;
+  color: white !important;
+}
+.btn-location:active,
+.btn-location:focus,
+.btn-location:focus-visible {
+  background-color: #A50E0E !important;
+  border-color: #A50E0E !important;
+  color: white !important;
+  box-shadow: 0 0 0 0.25rem rgba(234, 67, 53, 0.5) !important;
+}
+
+/* ── Utilidades heredadas ──────────────────────────────────────────── */
 .bd-placeholder-img {
   font-size: 1.125rem;
   text-anchor: middle;
@@ -17,134 +179,9 @@
   user-select: none;
 }
 @media (min-width: 768px) {
-  .bd-placeholder-img-lg {
-    font-size: 3.5rem;
-  }
-}
-.b-example-divider {
-  width: 100%;
-  height: 3rem;
-  background-color: #0000001a;
-  border: solid rgba(0, 0, 0, 0.15);
-  border-width: 1px 0;
-  box-shadow: inset 0 0.5em 1.5em #0000001a, inset 0 0.125em 0.5em #00000026;
-}
-.b-example-vr {
-  flex-shrink: 0;
-  width: 1.5rem;
-  height: 100vh;
+  .bd-placeholder-img-lg { font-size: 3.5rem; }
 }
 .bi {
   vertical-align: -0.125em;
   fill: currentColor;
-}
-.nav-scroller {
-  position: relative;
-  z-index: 2;
-  height: 2.75rem;
-  overflow-y: hidden;
-}
-.nav-scroller .nav {
-  display: flex;
-  flex-wrap: nowrap;
-  padding-bottom: 1rem;
-  margin-top: -1px;
-  overflow-x: auto;
-  text-align: center;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-}
-.btn-bd-primary {
-  --bd-violet-bg: #712cf9;
-  --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-  --bs-btn-font-weight: 600;
-  --bs-btn-color: var(--bs-white);
-  --bs-btn-bg: var(--bd-violet-bg);
-  --bs-btn-border-color: var(--bd-violet-bg);
-  --bs-btn-hover-color: var(--bs-white);
-  --bs-btn-hover-bg: #6528e0;
-  --bs-btn-hover-border-color: #6528e0;
-  --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-  --bs-btn-active-color: var(--bs-btn-hover-color);
-  --bs-btn-active-bg: #5a23c8;
-  --bs-btn-active-border-color: #5a23c8;
-}
-.bd-mode-toggle {
-  z-index: 1500;
-}
-.bd-mode-toggle .bi {
-  width: 1em;
-  height: 1em;
-}
-.bd-mode-toggle .dropdown-menu .active .bi {
-  display: block !important;
-}
-
-
-/* Estilos para botón de WhatsApp */
-/* Estilos para botón de WhatsApp */
-.btn-whatsapp {
-    background-color: #25D366 !important;
-    border-color: #25D366 !important;
-    color: white !important;
-}
-
-.btn-whatsapp:hover {
-    background-color: #128C7E !important;
-    border-color: #128C7E !important;
-    color: white !important;
-}
-
-.btn-whatsapp:active,
-.btn-whatsapp:focus,
-.btn-whatsapp:focus-visible {
-    background-color: #075E54 !important;
-    border-color: #075E54 !important;
-    color: white !important;
-    box-shadow: 0 0 0 0.25rem rgba(37, 211, 102, 0.5) !important;
-}
-
-/* Estilos para botón de TikTok */
-.btn-tiktok {
-    background-color: #000000 !important;
-    border-color: #00f2ea !important;
-    border-width: 2px !important;
-    color: white !important;
-}
-
-.btn-tiktok:hover {
-    background-color: #00f2ea !important;
-    border-color: #00f2ea !important;
-    color: #000000 !important;
-}
-
-.btn-tiktok:active,
-.btn-tiktok:focus,
-.btn-tiktok:focus-visible {
-    background-color: #ff0050 !important;
-    border-color: #ff0050 !important;
-    color: white !important;
-    box-shadow: 0 0 0 0.25rem rgba(0, 242, 234, 0.5) !important;
-}
-
-/* Estilos para botón de ubicación/mapa */
-.btn-location {
-    background-color: #EA4335 !important;
-    border-color: #EA4335 !important;
-    color: white !important;
-}
-
-.btn-location:hover {
-    background-color: #C5221F !important;
-    border-color: #C5221F !important;
-    color: white !important;
-}
-
-.btn-location:active,
-.btn-location:focus,
-.btn-location:focus-visible {
-    background-color: #A50E0E !important;
-    border-color: #A50E0E !important;
-    color: white !important;
-    box-shadow: 0 0 0 0.25rem rgba(234, 67, 53, 0.5) !important;
 }
