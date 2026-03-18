@@ -16,7 +16,7 @@ export class ResenaComponent implements OnInit {
     this.metaSvc.updateTags({
       title: '⭐ Déjanos tu reseña — Papelería El Gordo',
       description: '¿Te gustó nuestro servicio? Tu opinión nos ayuda a seguir mejorando. Déjanos una reseña en Google Maps.',
-      image: 'https://xplaya.com/img/papeleria.png',
+      image: 'https://xplaya.com/img/circleai.jpg',
       url: 'https://xplaya.com/resena',
       type: 'website',
     });
