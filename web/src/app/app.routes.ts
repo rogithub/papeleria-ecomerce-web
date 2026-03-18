@@ -3,8 +3,13 @@ import { ProductoListaComponent } from './components/producto-lista/producto-lis
 import { ProductoDetalleComponent } from './components/producto-detalle/producto-detalle';
 import { LayoutComponent } from './components/layout/layout';
 import { CartView } from './components/cart-view/cart-view';
+import { ResenaComponent } from './components/resena/resena';
 
 export const routes: Routes = [
+{
+  path: 'resena',
+  component: ResenaComponent
+},
 {
   path: '',
   component: LayoutComponent, // El layout envuelve a las demás rutas
