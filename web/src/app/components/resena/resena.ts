@@ -14,7 +14,7 @@ export class ResenaComponent implements OnInit {
 
   ngOnInit(): void {
     this.metaSvc.updateTags({
-      title: '⭐ Déjanos tu reseña — Papelería El Gordo',
+      title: '⭐ Déjanos tu reseña — Papelería xplaya.com',
       description: '¿Te gustó nuestro servicio? Tu opinión nos ayuda a seguir mejorando. Déjanos una reseña en Google Maps.',
       image: 'https://xplaya.com/img/circleai.jpg',
       url: 'https://xplaya.com/resena',
